@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="utf-8" />
+    <title>Grauhund Reisen</title>
+
+	<link href="@Path['~/Content/css/bootstrap.min.css']" rel="stylesheet" type="text/css"/>
+	<link href="@Path['~/Content/css/own-style.css']" rel="stylesheet" type="text/css"/>
+
+</head>
+<body>
+	<div id="wrap">
+		<div class="jumbotron" id="head">
+			<div class="container">
+				<div class="row">
+					@Partial['Shared/_navigation'];
+				</div>
+				<div class="row">
+					<h2>Grauhund Reisen</h2>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			@Section['Content'];
+		</div>
+	</div>
+
+	<div id="footer">
+		@Partial['Shared/_footer'];
+	</div>
+</body>
+</html>

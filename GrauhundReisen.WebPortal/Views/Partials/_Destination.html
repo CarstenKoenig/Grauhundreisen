@@ -1,0 +1,19 @@
+﻿<div class="box-rounded">
+	<p class="box-header">
+		<span class="glyphicon glyphicon-globe"> </span> Reiseziel
+	</p>
+
+	<div class="box-content form-group">
+		<p>
+			<select class="form-control" 
+				id="Destination" 
+				name="Destination">
+
+				@Each.Destinations
+					<option value="@Current.Name">@Current.Name</option>
+				@EndEach
+
+			</select>
+		</p>
+	</div>
+</div>

@@ -1,0 +1,84 @@
+﻿	html,
+	body {
+	  height: 100%;
+	}
+
+	#wrap {
+	  min-height: 100%;
+	  height: auto;
+	  margin: 0 auto -60px;
+	  padding: 0 0 60px;
+	}
+
+	#footer {
+	  height: 60px;
+	  background-color: #f5f5f5;
+	}
+
+	.footer-text{
+	  text-align:center;
+	  margin: 20px 0;
+	}
+
+	.img-size-150{
+		width: 150px;
+		height: 150px;
+	}
+
+	.left {
+		float: left;
+	}
+
+	.right {
+		float:right;
+	}
+
+	#head{
+		background-image: url('../header-bg.jpg');
+		background-repeat: no-repeat;
+		background-position: right;
+		background-color: black;
+		height: 250px;
+	}
+
+	#head h2{
+		font-size: 3.5em;
+		color: white;
+		margin-top:85px;
+	}
+
+	nav {
+		margin-bottom: 15px;
+	}
+
+	nav a{
+		color: white;
+	}
+
+	.form{
+		background-color: #eee;
+		padding: 10px;
+	}
+
+	.horizontal-space-15 {
+		padding-top:15px;
+	}
+
+	.box-rounded {
+		padding: 16px;
+		overflow: auto;
+		font-size: 85%;
+		line-height: 1.45;
+		background-color: #f7f7f7;
+		border-radius: 3px;
+	}
+
+	.box-header{
+		font-size: 1.5em;
+	}
+
+	.row{
+		margin-bottom:5px;
+	}
+
+

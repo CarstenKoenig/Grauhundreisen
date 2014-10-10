@@ -1,0 +1,24 @@
+﻿<div class="box-rounded">
+	<p class="box-header">
+		<span class="glyphicon glyphicon-credit-card"> </span> Bezahlung per
+	</p>
+
+	<div class="box-content form-group">
+		<p>
+			<select class="form-control" 
+				name="PaymentCreditCardType">
+
+				@Each.CreditCardTypes
+					<option value="@Current.Name">@Current.Name</option>
+				@EndEach
+			
+			</select>
+		</p>
+
+		<p>
+			<input type="text" class="form-control" 
+				name="PaymentCreditCardNumber"
+				placeholder="XXXX-XXXX-XXXX-XXXX"/>
+		</p>
+	</div>
+</div>	
