@@ -1,20 +1,20 @@
 ﻿using System;
-using DatabaseLayer;
 using Nancy;
-using GrauhundReisen.EventHandler;
 using GrauhundReisen.Contracts.Events;
+using GrauhundReisen.ReadModel.EventHandler;
+using GrauhundReisen.ReadModel.Repositories;
 
 namespace GrauhundReisen.WebPortal
 {
 	public class Index : NancyModule
 	{
-		readonly Bookings _bookings;
+		readonly BookingHandler _bookingHandler;
 
-		public Index (ViewModels viewModels, Bookings bookings)
+		public Index (BookingForm bookingForm, BookingHandler bookingHandler)
 		{
-			_bookings = bookings;
+			_bookingHandler = bookingHandler;
 
-			Get [""] = _ => View ["index", new { viewModels.CreditCardTypes, viewModels.Destinations }];
+			Get [""] = _ => View ["index", new { bookingForm.CreditCardTypes, bookingForm.Destinations }];
 
 			Post [""] = _ => ProceedBooking ();
 		}
@@ -31,7 +31,7 @@ namespace GrauhundReisen.WebPortal
 				LastName = this.Request.Form ["TravellerLastName"].Value
 			};
 
-			_bookings.Handle (bookingOrdered);
+			_bookingHandler.Handle (bookingOrdered);
 
 			return View ["confirmation", new {bookingOrdered.BookingId}];
 		}

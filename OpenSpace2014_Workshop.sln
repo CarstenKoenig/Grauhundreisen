@@ -1,13 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseLayer", "DatabaseLayer\DatabaseLayer.csproj", "{92C5B9D1-9988-488B-99D5-1371F36F3F50}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrauhundReisen.WebPortal", "GrauhundReisen.WebPortal\GrauhundReisen.WebPortal.csproj", "{923432BA-6B4D-4EBA-83C7-2B1F94F47DE7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrauhundReisen.EventHandler", "GrauhundReisen.EventHandler\GrauhundReisen.EventHandler.csproj", "{FE41A1B0-73BC-4207-B85A-4992A065FACA}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrauhundReisen.Contracts", "GrauhundReisen.Contracts\GrauhundReisen.Contracts.csproj", "{8FEF2173-D048-4846-B423-ECF201CD0845}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrauhundReisen.ReadModel", "GrauhundReisen.ReadModel\GrauhundReisen.ReadModel.csproj", "{63110AE7-9DF9-4745-8026-2DE15FC064A3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +13,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{63110AE7-9DF9-4745-8026-2DE15FC064A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63110AE7-9DF9-4745-8026-2DE15FC064A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63110AE7-9DF9-4745-8026-2DE15FC064A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63110AE7-9DF9-4745-8026-2DE15FC064A3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8FEF2173-D048-4846-B423-ECF201CD0845}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8FEF2173-D048-4846-B423-ECF201CD0845}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8FEF2173-D048-4846-B423-ECF201CD0845}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -23,14 +25,6 @@ Global
 		{923432BA-6B4D-4EBA-83C7-2B1F94F47DE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{923432BA-6B4D-4EBA-83C7-2B1F94F47DE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{923432BA-6B4D-4EBA-83C7-2B1F94F47DE7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{92C5B9D1-9988-488B-99D5-1371F36F3F50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{92C5B9D1-9988-488B-99D5-1371F36F3F50}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{92C5B9D1-9988-488B-99D5-1371F36F3F50}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{92C5B9D1-9988-488B-99D5-1371F36F3F50}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FE41A1B0-73BC-4207-B85A-4992A065FACA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FE41A1B0-73BC-4207-B85A-4992A065FACA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FE41A1B0-73BC-4207-B85A-4992A065FACA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FE41A1B0-73BC-4207-B85A-4992A065FACA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = GrauhundReisen.WebPortal\GrauhundReisen.WebPortal.csproj

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DatabaseLayer.DataObjects
+namespace GrauhundReisen.Contracts.ViewModels
 {
 	public class Traveller
 	{

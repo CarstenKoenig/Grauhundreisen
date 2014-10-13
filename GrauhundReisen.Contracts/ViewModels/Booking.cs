@@ -1,19 +1,13 @@
 ﻿using System;
 
-namespace DatabaseLayer.DataObjects
+namespace GrauhundReisen.Contracts.ViewModels
 {
 	public class Booking
 	{
-		public static Booking CreateFrom(Order order){
-			var bookingId = Guid.NewGuid ().ToString ();
-
-			return new Booking (bookingId, order.Traveller, order.Payment, order.Destination);
-		}
-
 		public Booking(){
 		}
 
-		protected Booking (String id, Traveller traveller, TravellersBankAccount payment, String destination)
+		public Booking (String id, Traveller traveller, TravellersBankAccount payment, String destination)
 		{
 			Id = id;
 

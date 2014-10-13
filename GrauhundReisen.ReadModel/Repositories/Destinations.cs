@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using DatabaseLayer.DataObjects;
 using System.Linq;
+using GrauhundReisen.Contracts.ViewModels;
 
-namespace DatabaseLayer
+namespace GrauhundReisen.ReadModel.Repositories
 {
 	public class Destinations
 	{

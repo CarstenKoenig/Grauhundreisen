@@ -1,6 +1,6 @@
 ﻿using Nancy;
-using DatabaseLayer;
-using GrauhundReisen.EventHandler;
+using GrauhundReisen.ReadModel.EventHandler;
+using GrauhundReisen.ReadModel.Repositories;
 
 namespace GrauhundReisen.WebPortal
 {
@@ -12,8 +12,9 @@ namespace GrauhundReisen.WebPortal
 		{
 			StaticConfiguration.DisableErrorTraces = false;
 
-			container.Register<ViewModels> (new ViewModels(ConnectionString));
-			container.Register<Bookings> (new Bookings (ConnectionString));
+			container.Register<BookingForm> (new BookingForm ());
+			container.Register<Bookings> (new Bookings(ConnectionString));
+			container.Register<BookingHandler> (new BookingHandler (ConnectionString));
 
 			base.ApplicationStartup (container, pipelines);
 		}

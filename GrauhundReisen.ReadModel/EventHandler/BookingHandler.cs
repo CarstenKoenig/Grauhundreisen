@@ -1,16 +1,16 @@
 ﻿using System;
 using GrauhundReisen.Contracts.Events;
-using DatabaseLayer.DataObjects;
 using System.IO;
 using Newtonsoft.Json;
+using GrauhundReisen.Contracts.ViewModels;
 
-namespace GrauhundReisen.EventHandler
+namespace GrauhundReisen.ReadModel.EventHandler
 {
-	public class Bookings
+	public class BookingHandler
 	{
 		readonly string bookingsPath;
 
-		public Bookings (string connectionString)
+		public BookingHandler (string connectionString)
 		{
 			bookingsPath = connectionString;
 		}

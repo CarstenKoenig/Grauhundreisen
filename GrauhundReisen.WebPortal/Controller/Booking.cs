@@ -1,19 +1,19 @@
 ﻿using Nancy;
-using DatabaseLayer;
-using GrauhundReisen.EventHandler;
 using GrauhundReisen.Contracts.Events;
+using GrauhundReisen.ReadModel.EventHandler;
+using GrauhundReisen.ReadModel.Repositories;
 
 namespace GrauhundReisen.WebPortal
 {
 	public class Booking : NancyModule
 	{
-		ViewModels _viewModels;
-		readonly Bookings _bookings;
+		Bookings _bookings;
+		readonly BookingHandler _bookingHandler;
 
-		public Booking (ViewModels viewModels, Bookings bookings)
+		public Booking (Bookings bookings, BookingHandler bookingHandler)
 		{
-			_viewModels = viewModels;
 			_bookings = bookings;
+			_bookingHandler = bookingHandler;
 
 			Get ["change-booking/{id}"] = _ => GetBookingFormFor ((string)_.id);
 			Post ["change-booking"] = _ => UpdateBooking ();
@@ -21,7 +21,7 @@ namespace GrauhundReisen.WebPortal
 
 		object GetBookingFormFor (string bookingId)
 		{
-			var booking = _viewModels.GetBookingBy (bookingId);
+			var booking = _bookings.GetBookingBy (bookingId);
 
 			return View ["change-booking", booking];
 		}
@@ -34,7 +34,7 @@ namespace GrauhundReisen.WebPortal
 				CreditCardNumber = this.Request.Form ["PaymentCreditCardNumber"].Value
 			};
 
-			_bookings.Handle (bookingUpdated);
+			_bookingHandler.Handle (bookingUpdated);
 
 			return View ["change-confirmation"];
 		}

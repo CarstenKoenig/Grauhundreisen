@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using DatabaseLayer.DataObjects;
 using System.Linq;
+using GrauhundReisen.Contracts.ViewModels;
 
-namespace DatabaseLayer.Repositories
+namespace GrauhundReisen.ReadModel.Repositories
 {
 
 	public class CreditCardTypes{

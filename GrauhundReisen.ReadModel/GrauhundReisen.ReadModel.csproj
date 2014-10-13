@@ -3,10 +3,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{92C5B9D1-9988-488B-99D5-1371F36F3F50}</ProjectGuid>
+    <ProjectGuid>{63110AE7-9DF9-4745-8026-2DE15FC064A3}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>DatabaseLayer</RootNamespace>
-    <AssemblyName>DatabaseLayer</AssemblyName>
+    <RootNamespace>GrauhundReisen.ReadModel</RootNamespace>
+    <AssemblyName>GrauhundReisen.ReadModel</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -32,25 +32,28 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DataObjects\Destination.cs" />
-    <Compile Include="DataObjects\Traveller.cs" />
-    <Compile Include="DataObjects\TravellersBankAccount.cs" />
-    <Compile Include="DataObjects\CreditCardType.cs" />
+    <Compile Include="EventHandler\BookingHandler.cs" />
+    <Compile Include="Repositories\Bookings.cs" />
     <Compile Include="Repositories\CreditCardTypes.cs" />
     <Compile Include="Repositories\Destinations.cs" />
-    <Compile Include="DataObjects\Order.cs" />
-    <Compile Include="DataObjects\Booking.cs" />
-    <Compile Include="ViewModels.cs" />
+    <Compile Include="Repositories\BookingForm.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <Folder Include="DataObjects\" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="EventHandler\" />
     <Folder Include="Repositories\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\GrauhundReisen.Contracts\GrauhundReisen.Contracts.csproj">
+      <Project>{8FEF2173-D048-4846-B423-ECF201CD0845}</Project>
+      <Name>GrauhundReisen.Contracts</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

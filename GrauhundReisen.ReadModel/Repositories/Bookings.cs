@@ -1,33 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using DatabaseLayer.DataObjects;
-using DatabaseLayer.Repositories;
 using System.IO;
 using Newtonsoft.Json;
+using GrauhundReisen.Contracts.ViewModels;
 
-namespace DatabaseLayer
+namespace GrauhundReisen.ReadModel.Repositories
 {
-	public class ViewModels
+	public class Bookings
 	{
 		readonly String bookingsPath;
 
-		public ViewModels (string viewModelsConnection)
+		public Bookings (string viewModelsConnection)
 		{
 			bookingsPath = viewModelsConnection;
-		}
-
-		public IEnumerable<CreditCardType> CreditCardTypes
-		{
-			get {
-				return new CreditCardTypes ().GetAll (); 
-			}
-		}
-
-		public IEnumerable<Destination> Destinations
-		{
-			get{
-				return new Destinations ().GetAll ();
-			}
 		}
 
 		public Booking GetBookingBy(String bookingId){
