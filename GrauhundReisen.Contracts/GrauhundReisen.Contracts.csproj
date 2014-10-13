@@ -3,10 +3,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{92C5B9D1-9988-488B-99D5-1371F36F3F50}</ProjectGuid>
+    <ProjectGuid>{8FEF2173-D048-4846-B423-ECF201CD0845}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>DatabaseLayer</RootNamespace>
-    <AssemblyName>DatabaseLayer</AssemblyName>
+    <RootNamespace>GrauhundReisen.Contracts</RootNamespace>
+    <AssemblyName>GrauhundReisen.Contracts</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -29,28 +29,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DataObjects\Destination.cs" />
-    <Compile Include="DataObjects\Traveller.cs" />
-    <Compile Include="DataObjects\TravellersBankAccount.cs" />
-    <Compile Include="DataObjects\CreditCardType.cs" />
-    <Compile Include="Repositories\CreditCardTypes.cs" />
-    <Compile Include="Repositories\Destinations.cs" />
-    <Compile Include="DataObjects\Order.cs" />
-    <Compile Include="DataObjects\Booking.cs" />
-    <Compile Include="ViewModels.cs" />
+    <Compile Include="Events\BookingOrdered.cs" />
+    <Compile Include="Events\BookingUpdated.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <Folder Include="DataObjects\" />
-    <Folder Include="Repositories\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
+    <Folder Include="Events\" />
   </ItemGroup>
 </Project>

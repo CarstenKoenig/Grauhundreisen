@@ -1,47 +1,39 @@
 ﻿using System;
 using DatabaseLayer;
 using Nancy;
-using Nancy.ModelBinding;
-using DatabaseLayer.DataObjects;
+using GrauhundReisen.EventHandler;
+using GrauhundReisen.Contracts.Events;
 
 namespace GrauhundReisen.WebPortal
 {
 	public class Index : NancyModule
 	{
-		DatabaseServer _db;
+		readonly Bookings _bookings;
 
-		public Index (DatabaseServer db)
+		public Index (ViewModels viewModels, Bookings bookings)
 		{
-			_db = db;
+			_bookings = bookings;
 
-			Get [""] = _ => {
-
-				var emptyOrderForm = new OrderFormViewModel {
-					CreditCardTypes = db.GetAlCreditCardTypes (),
-					Destinations = db.GetAllDestinations ()
-				};
-
-				return View ["index", emptyOrderForm];
-			};
+			Get [""] = _ => View ["index", new { viewModels.CreditCardTypes, viewModels.Destinations }];
 
 			Post [""] = _ => ProceedBooking ();
 		}
 
 		object ProceedBooking ()
 		{
-			var orderVM = this.Bind<OrderViewModel> ();
-			var order = new Order ();
+			var bookingOrdered = new BookingOrdered () {
+				BookingId = Guid.NewGuid ().ToString (),
+				Destination = this.Request.Form ["Destination"].Value,
+				CreditCardNumber = this.Request.Form ["PaymentCreditCardNumber"].Value,
+				CreditCardType = this.Request.Form ["PaymentCreditCardType"].Value,
+				Email = this.Request.Form ["TravellerEmail"].Value,
+				FirstName = this.Request.Form ["TravellerFirstName"].Value,
+				LastName = this.Request.Form ["TravellerLastName"].Value
+			};
 
-			order.Traveller.FirstName = orderVM.TravellerFirstName;
-			order.Traveller.LastName = orderVM.TravellerLastName;
-			order.Traveller.EMail = orderVM.TravellerEmail;
-			order.Payment.CreditCardType = orderVM.PaymentCreditCardType;
-			order.Payment.CreditCardNumber = orderVM.PaymentCreditCardNumber;
-			order.Destination = orderVM.Destination;
+			_bookings.Handle (bookingOrdered);
 
-			var bookingId = _db.SaveOrder (order);
-
-			return View ["confirmation", new {BookingId = bookingId}];
+			return View ["confirmation", new {bookingOrdered.BookingId}];
 		}
 	}
 }

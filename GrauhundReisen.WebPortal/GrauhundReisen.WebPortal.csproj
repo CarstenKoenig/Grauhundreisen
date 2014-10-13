@@ -58,7 +58,6 @@
     <Folder Include="Views\Shared\" />
     <Folder Include="Content\" />
     <Folder Include="Views\Partials\" />
-    <Folder Include="Models\" />
     <Folder Include="Content\DataStore\" />
     <Folder Include="Content\DataStore\Orders\" />
     <Folder Include="Content\DataStore\Bookings\" />
@@ -98,8 +97,6 @@
   <ItemGroup>
     <Compile Include="Controller\Index.cs" />
     <Compile Include="Boostrapper.cs" />
-    <Compile Include="Models\OrderViewModel.cs" />
-    <Compile Include="Models\OrderFormViewModel.cs" />
     <Compile Include="Controller\Booking.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -110,6 +107,14 @@
     <ProjectReference Include="..\DatabaseLayer\DatabaseLayer.csproj">
       <Project>{92C5B9D1-9988-488B-99D5-1371F36F3F50}</Project>
       <Name>DatabaseLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GrauhundReisen.Contracts\GrauhundReisen.Contracts.csproj">
+      <Project>{8FEF2173-D048-4846-B423-ECF201CD0845}</Project>
+      <Name>GrauhundReisen.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GrauhundReisen.EventHandler\GrauhundReisen.EventHandler.csproj">
+      <Project>{FE41A1B0-73BC-4207-B85A-4992A065FACA}</Project>
+      <Name>GrauhundReisen.EventHandler</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

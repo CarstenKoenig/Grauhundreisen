@@ -1,39 +1,40 @@
 ﻿using Nancy;
 using DatabaseLayer;
+using GrauhundReisen.EventHandler;
+using GrauhundReisen.Contracts.Events;
 
 namespace GrauhundReisen.WebPortal
 {
 	public class Booking : NancyModule
 	{
-		readonly DatabaseServer _db;
+		ViewModels _viewModels;
+		readonly Bookings _bookings;
 
-		public Booking (DatabaseServer db)
+		public Booking (ViewModels viewModels, Bookings bookings)
 		{
-			_db = db;
+			_viewModels = viewModels;
+			_bookings = bookings;
 
 			Get ["change-booking/{id}"] = _ => GetBookingFormFor ((string)_.id);
-			Post ["change-booking"] = _ => UpdateBookingFor ();
+			Post ["change-booking"] = _ => UpdateBooking ();
 		}
 
 		object GetBookingFormFor (string bookingId)
 		{
-			var booking = _db.GetBookingBy (bookingId);
+			var booking = _viewModels.GetBookingBy (bookingId);
 
 			return View ["change-booking", booking];
 		}
 
-		object UpdateBookingFor ()
+		object UpdateBooking ()
 		{
-			var bookingId = this.Request.Form ["BookingId"].Value;
-			var travellerEmail = this.Request.Form ["TravellerEMail"].Value;
-			var creditCardNumber = this.Request.Form ["PaymentCreditCardNumber"].Value;
+			var bookingUpdated = new BookingUpdated { 
+				BookingId = this.Request.Form ["BookingId"].Value,
+				Email = this.Request.Form ["TravellerEMail"].Value,
+				CreditCardNumber = this.Request.Form ["PaymentCreditCardNumber"].Value
+			};
 
-			var bookingToUpdate = _db.GetBookingBy (bookingId);
-
-			bookingToUpdate.Traveller.EMail = travellerEmail;
-			bookingToUpdate.Payment.CreditCardNumber = creditCardNumber;
-
-			_db.Update (bookingToUpdate);
+			_bookings.Handle (bookingUpdated);
 
 			return View ["change-confirmation"];
 		}
