@@ -4,14 +4,15 @@ using System.Collections.Generic;
 using DatabaseLayer.DataObjects;
 using System.Security.Cryptography;
 using System.Text;
-using System.Linq;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace DatabaseLayer
 {
 	public class DatabaseServer
 	{
-		IList<Order> _orders = new List<Order> ();
-		IList<Booking> _bookings = new List<Booking> ();
+		const String BookingsPath = "Content/DataStore/Bookings/";
+		const String OrdersPath = "Content/DataStore/Orders/";
 
 		public IEnumerable<CreditCardType> GetAlCreditCardTypes ()
 		{
@@ -31,15 +32,25 @@ namespace DatabaseLayer
 
 			var booking = Booking.CreateFrom(order);
 
-			_orders.Add (order);
-			_bookings.Add (booking);
+			SaveBookingAsFile (booking);
+
+			SaveOrderAsFile (order, booking.Id);
 
 			return booking.Id;
 		}
 
 		public Booking GetBookingBy(String bookingId){
 		
-			return _bookings.SingleOrDefault (b => b.Id.Equals (bookingId));
+			return ReadBookingFromFile(bookingId);
+		}
+
+		public void Update (Booking booking)
+		{
+			var bookingPath = Path.Combine (BookingsPath, booking.Id);
+
+			File.Delete (bookingPath);
+
+			SaveBookingAsFile (booking);
 		}
 
 		static String HashOf(String toHash){
@@ -49,6 +60,33 @@ namespace DatabaseLayer
 			var result = md5.ComputeHash(textToHash); 
 
 			return BitConverter.ToString(result).Replace("-",""); 
+		}
+
+		static void SaveOrderAsFile (Order order, String bookingId)
+		{
+			var savePath = Path.Combine (OrdersPath, bookingId);
+			var orderAsJson = JsonConvert.SerializeObject (order);
+
+			File.WriteAllText (savePath, orderAsJson);
+		}
+
+		static void SaveBookingAsFile (Booking booking)
+		{
+			var savePath = Path.Combine (BookingsPath, booking.Id);
+			var bookingAsJson = JsonConvert.SerializeObject (booking);
+
+			File.WriteAllText (savePath, bookingAsJson);
+		}
+
+		static Booking ReadBookingFromFile (string bookingId)
+		{
+			var bookingPath = Path.Combine (BookingsPath, bookingId);
+
+			var bookingAsString = File.ReadAllText (bookingPath);
+
+			var booking = JsonConvert.DeserializeObject<Booking> (bookingAsString);
+
+			return booking;
 		}
 	}
 }

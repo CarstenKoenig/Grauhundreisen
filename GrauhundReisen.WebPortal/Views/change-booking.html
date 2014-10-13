@@ -1,0 +1,36 @@
+﻿@Master['Shared/_layout']
+
+@Section['Content']
+	<form method="post" action="/change-booking">
+		<input type="hidden" class="form-control" id="BookingId" name="BookingId" value="@Model.Id"/>
+
+		<h2>Buchung ändern</h2>
+
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-6 col-md-6">
+
+					@Partial['Partials/_ChangeTraveller', Model.Traveller];
+
+				</div>
+				<div class="col-xs-6 col-md-6">
+					
+					@Partial['Partials/_ChangePayment', Model.Payment];
+
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-6 col-md-6">
+
+					@Partial['Partials/_ChangeDestination', Model.Destination];
+
+				</div>
+				<div class="col-xs-6 col-md-6">
+					
+					@Partial['Partials/_ConfirmChanges'];
+
+				</div>
+			</div>
+		</div>
+	</form>
+@EndSection

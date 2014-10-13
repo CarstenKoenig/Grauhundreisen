@@ -10,6 +10,9 @@ namespace DatabaseLayer.DataObjects
 			return new Booking (bookingId, order.Traveller, order.Payment, order.Destination);
 		}
 
+		public Booking(){
+		}
+
 		protected Booking (String id, Traveller traveller, TravellersBankAccount payment, String destination)
 		{
 			Id = id;
@@ -22,22 +25,22 @@ namespace DatabaseLayer.DataObjects
 
 		public String Id {
 			get;
-			private set;
+			set;
 		}
 
 		public Traveller Traveller {
 			get;
-			private set;
+			set;
 		}
 
 		public TravellersBankAccount Payment {
 			get;
-			private set;
+			set;
 		}
 
 		public String Destination {
 			get;
-			private set;
+			set;
 		}
 	}
 }
