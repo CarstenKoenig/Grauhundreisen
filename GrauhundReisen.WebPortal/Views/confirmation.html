@@ -5,7 +5,13 @@
 	<div class="container">
 		<div class="row">
 			<p>
-				Dein Auftrag ist unter Buchungsnummer @Model.BookingId bestätigt worden.
+				Dein Auftrag ist unter der Buchungsnummer @Model.BookingId vorerst bestätigt worden.
+			</p>
+			<p>
+				Du kannst deine Buchung innerhalb der nächsten 30 Minuten noch ändern.
+			</p>
+			<p>
+				<a href="/change-booking/@Model.BookingId" class="btn btn-primary btn-lg active" role="button">Buchung ändern</a>
 			</p>
 			<p>
 				Gute Reise...
