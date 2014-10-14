@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EyKeule;
@@ -58,6 +59,11 @@ namespace GrauhundReisen.Domain.Services
                     _eventStoreClient.Store(booking.Id, change);
                     _eventHandling(change);
                 }));
+        }
+
+        public IEnumerable<object> GetAllEvents()
+        {
+            return _eventStoreClient.RetrieveAll();
         }
     }
 }

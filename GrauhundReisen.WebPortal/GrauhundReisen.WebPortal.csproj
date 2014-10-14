@@ -128,6 +128,7 @@
     <Content Include="Views\change-confirmation.html" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controller\Admin.cs" />
     <Compile Include="Controller\Index.cs" />
     <Compile Include="Boostrapper.cs" />
     <Compile Include="Controller\Booking.cs" />
