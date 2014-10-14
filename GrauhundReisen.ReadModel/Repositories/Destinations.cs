@@ -4,7 +4,7 @@ using GrauhundReisen.Contracts.ViewModels;
 
 namespace GrauhundReisen.ReadModel.Repositories
 {
-	public class Destinations
+	class Destinations
 	{
 		public IEnumerable<Destination> GetAll(){
 

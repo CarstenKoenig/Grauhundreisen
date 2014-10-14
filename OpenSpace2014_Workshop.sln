@@ -1,11 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrauhundReisen.WebPortal", "GrauhundReisen.WebPortal\GrauhundReisen.WebPortal.csproj", "{923432BA-6B4D-4EBA-83C7-2B1F94F47DE7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrauhundReisen.Contracts", "GrauhundReisen.Contracts\GrauhundReisen.Contracts.csproj", "{8FEF2173-D048-4846-B423-ECF201CD0845}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrauhundReisen.ReadModel", "GrauhundReisen.ReadModel\GrauhundReisen.ReadModel.csproj", "{63110AE7-9DF9-4745-8026-2DE15FC064A3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrauhundReisen.Domain", "GrauhundReisen.Domain\GrauhundReisen.Domain.csproj", "{65BCB66B-65CD-4380-A51C-92524FA4483D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,18 +17,25 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{63110AE7-9DF9-4745-8026-2DE15FC064A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{63110AE7-9DF9-4745-8026-2DE15FC064A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{63110AE7-9DF9-4745-8026-2DE15FC064A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{63110AE7-9DF9-4745-8026-2DE15FC064A3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8FEF2173-D048-4846-B423-ECF201CD0845}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8FEF2173-D048-4846-B423-ECF201CD0845}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8FEF2173-D048-4846-B423-ECF201CD0845}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8FEF2173-D048-4846-B423-ECF201CD0845}.Release|Any CPU.Build.0 = Release|Any CPU
 		{923432BA-6B4D-4EBA-83C7-2B1F94F47DE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{923432BA-6B4D-4EBA-83C7-2B1F94F47DE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{923432BA-6B4D-4EBA-83C7-2B1F94F47DE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{923432BA-6B4D-4EBA-83C7-2B1F94F47DE7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FEF2173-D048-4846-B423-ECF201CD0845}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FEF2173-D048-4846-B423-ECF201CD0845}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FEF2173-D048-4846-B423-ECF201CD0845}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FEF2173-D048-4846-B423-ECF201CD0845}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63110AE7-9DF9-4745-8026-2DE15FC064A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63110AE7-9DF9-4745-8026-2DE15FC064A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63110AE7-9DF9-4745-8026-2DE15FC064A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63110AE7-9DF9-4745-8026-2DE15FC064A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65BCB66B-65CD-4380-A51C-92524FA4483D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65BCB66B-65CD-4380-A51C-92524FA4483D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65BCB66B-65CD-4380-A51C-92524FA4483D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65BCB66B-65CD-4380-A51C-92524FA4483D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = GrauhundReisen.WebPortal\GrauhundReisen.WebPortal.csproj

@@ -5,7 +5,7 @@ using GrauhundReisen.Contracts.ViewModels;
 namespace GrauhundReisen.ReadModel.Repositories
 {
 
-	public class CreditCardTypes{
+	class CreditCardTypes{
 	
 		public IEnumerable<CreditCardType> GetAll(){
 			var ccTypes = new List<CreditCardType>{ 

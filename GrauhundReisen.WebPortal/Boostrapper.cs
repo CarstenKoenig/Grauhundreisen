@@ -1,39 +1,34 @@
-﻿using Nancy;
+﻿using GrauhundReisen.Domain.Services;
+using Nancy;
 using GrauhundReisen.ReadModel.EventHandler;
 using GrauhundReisen.ReadModel.Repositories;
-using EyKeule;
-using System;
+using Nancy.TinyIoc;
 
 namespace GrauhundReisen.WebPortal
 {
-	public class Boostrapper : DefaultNancyBootstrapper
-	{
-		const string ConnectionString = @"C:\Development\Community\GrauhundReisen\GrauhundReisen.WebPortal\Content\DataStore\Bookings\";
+    public class Boostrapper : DefaultNancyBootstrapper
+    {
+        const string ConnectionString = @"C:\Development\Community\GrauhundReisen\GrauhundReisen.WebPortal\Content\DataStore\Bookings\";
 
-		protected override void ApplicationStartup (Nancy.TinyIoc.TinyIoCContainer container, Nancy.Bootstrapper.IPipelines pipelines)
-		{
-			StaticConfiguration.DisableErrorTraces = false;
+        protected override void ApplicationStartup(TinyIoCContainer container, Nancy.Bootstrapper.IPipelines pipelines)
+        {
+            StaticConfiguration.DisableErrorTraces = false;
 
-			var esClientConfig = new EventStoreClientConfiguration {
-				AccountId = "MyTestAccount",
-				InitActionName = "init",
-				RemoveActionName= "remove",
-				RetrieveActionName="events",
-				StoreActionName = "store",
-				ServerUri = new Uri("http://openspace2014.azurewebsites.net")
-			};
+            SetupIoC(container);
 
-			var eventStoreClient = EventStoreClient.InitWith (esClientConfig);
-			var bookingHandler = new BookingHandler (eventStoreClient, ConnectionString);
-			var bookingForm = new BookingForm ();
-			var bookings = new Bookings (ConnectionString);
+            base.ApplicationStartup(container, pipelines);
+        }
 
-			container.Register (eventStoreClient);
-			container.Register (bookingHandler);
-			container.Register (bookingForm);
-			container.Register (bookings);
+        private static void SetupIoC(TinyIoCContainer container)
+        {
+            var bookingEventHandler = new BookingHandler(ConnectionString);
+            var bookingService = new BookingService();
 
-			base.ApplicationStartup (container, pipelines);
-		}
-	}
+            bookingService.WhenStatusChanged(bookingEventHandler.Handle);
+
+            container.Register(bookingService);
+            container.Register<BookingForm>();
+            container.Register(new Bookings(ConnectionString));
+        }
+    }
 }

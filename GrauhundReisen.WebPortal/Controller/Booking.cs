@@ -1,4 +1,6 @@
-﻿using Nancy;
+﻿using System.Web.UI.WebControls;
+using GrauhundReisen.Domain.Services;
+using Nancy;
 using GrauhundReisen.Contracts.Events;
 using GrauhundReisen.ReadModel.EventHandler;
 using GrauhundReisen.ReadModel.Repositories;
@@ -8,13 +10,13 @@ namespace GrauhundReisen.WebPortal
 {
 	public class Booking : NancyModule
 	{
-		Bookings _bookings;
-		readonly BookingHandler _bookingHandler;
+	    readonly Bookings _bookings;
+	    readonly BookingService _bookingService;
 
-		public Booking (Bookings bookings, BookingHandler bookingHandler)
+	    public Booking(Bookings bookings, BookingService bookingService)
 		{
 			_bookings = bookings;
-			_bookingHandler = bookingHandler;
+            _bookingService = bookingService;
 
 			Get ["change-booking/{id}"] = _ => GetBookingFormFor ((string)_.id);
 			Post ["change-booking", true] = async(parameters,cancel) => await UpdateBooking ();
@@ -29,13 +31,11 @@ namespace GrauhundReisen.WebPortal
 
 		async Task<object> UpdateBooking ()
 		{
-			var bookingUpdated = new BookingUpdated { 
-				BookingId = this.Request.Form ["BookingId"].Value,
-				Email = this.Request.Form ["TravellerEMail"].Value,
-				CreditCardNumber = this.Request.Form ["PaymentCreditCardNumber"].Value
-			};
+		    var bookingId = this.Request.Form["BookingId"].Value;
+		    var email = this.Request.Form["TravellerEMail"].Value;
+		    var creditCardNumber = this.Request.Form["PaymentCreditCardNumber"].Value;
 
-			await _bookingHandler.Handle (bookingUpdated);
+		    await _bookingService.UpdateBookingDetails(bookingId, email, creditCardNumber);
 
 			return View ["change-confirmation"];
 		}

@@ -1,7 +1,6 @@
 ﻿using System;
+using GrauhundReisen.Domain.Services;
 using Nancy;
-using GrauhundReisen.Contracts.Events;
-using GrauhundReisen.ReadModel.EventHandler;
 using GrauhundReisen.ReadModel.Repositories;
 using System.Threading.Tasks;
 
@@ -9,32 +8,33 @@ namespace GrauhundReisen.WebPortal
 {
 	public class Index : NancyModule
 	{
-		readonly BookingHandler _bookingHandler;
+		readonly BookingService _bookingService;
 
-		public Index (BookingForm bookingForm, BookingHandler bookingHandler)
+		public Index (BookingForm bookingForm, BookingService bookingService)
 		{
-			_bookingHandler = bookingHandler;
+			_bookingService = bookingService;
 
 			Get [""] = _ => View ["index", new { bookingForm.CreditCardTypes, bookingForm.Destinations }];
 
 			Post ["", runAsync: true] = async(parameters, cancel) => await ProceedBooking();
 		}
 
-		async Task<object> ProceedBooking(){
+		async Task<object> ProceedBooking()
+		{
+		    var bookingId = Guid.NewGuid().ToString();
+		    var destination = this.Request.Form["Destination"].Value;
+		    var creditCardNumber = this.Request.Form["PaymentCreditCardNumber"].Value;
+		    var creditCardType = this.Request.Form["PaymentCreditCardType"].Value;
+		    var email = this.Request.Form["TravellerEmail"].Value;
+		    var firstName = this.Request.Form["TravellerFirstName"].Value;
+		    var lastName = this.Request.Form["TravellerLastName"].Value;
 
-			var bookingOrdered = new BookingOrdered () {
-				BookingId = Guid.NewGuid ().ToString (),
-				Destination = this.Request.Form ["Destination"].Value,
-				CreditCardNumber = this.Request.Form ["PaymentCreditCardNumber"].Value,
-				CreditCardType = this.Request.Form ["PaymentCreditCardType"].Value,
-				Email = this.Request.Form ["TravellerEmail"].Value,
-				FirstName = this.Request.Form ["TravellerFirstName"].Value,
-				LastName = this.Request.Form ["TravellerLastName"].Value
-			};
+		    await _bookingService.OrderBooking(bookingId,
+		        destination,
+		        creditCardNumber, creditCardType,
+		        email, firstName, lastName);
 
-			await _bookingHandler.Handle (bookingOrdered);
-
-			return View ["confirmation", new {bookingOrdered.BookingId}];
+			return View ["confirmation", new {BookingId = bookingId}];
 		}
 	}
 }

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -31,9 +31,10 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Events\BookingCreditCardNumberChanged.cs" />
+    <Compile Include="Events\BookingEmailChanged.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Events\BookingOrdered.cs" />
-    <Compile Include="Events\BookingUpdated.cs" />
     <Compile Include="ViewModels\Booking.cs" />
     <Compile Include="ViewModels\CreditCardType.cs" />
     <Compile Include="ViewModels\Destination.cs" />
@@ -41,8 +42,5 @@
     <Compile Include="ViewModels\TravellersBankAccount.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <Folder Include="Events\" />
-    <Folder Include="ViewModels\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>

@@ -94,7 +94,6 @@
   </ProjectExtensions>
   <ItemGroup>
     <Folder Include="Content\DataStore\Bookings\" />
-    <Folder Include="Content\DataStore\Orders\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -141,6 +140,10 @@
     <ProjectReference Include="..\GrauhundReisen.Contracts\GrauhundReisen.Contracts.csproj">
       <Project>{8FEF2173-D048-4846-B423-ECF201CD0845}</Project>
       <Name>GrauhundReisen.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GrauhundReisen.Domain\GrauhundReisen.Domain.csproj">
+      <Project>{65bcb66b-65cd-4380-a51c-92524fa4483d}</Project>
+      <Name>GrauhundReisen.Domain</Name>
     </ProjectReference>
     <ProjectReference Include="..\GrauhundReisen.ReadModel\GrauhundReisen.ReadModel.csproj">
       <Project>{63110AE7-9DF9-4745-8026-2DE15FC064A3}</Project>

@@ -4,7 +4,6 @@ using System.IO;
 using Newtonsoft.Json;
 using GrauhundReisen.Contracts.ViewModels;
 using System.Threading.Tasks;
-using EyKeule;
 
 namespace GrauhundReisen.ReadModel.EventHandler
 {
@@ -12,12 +11,9 @@ namespace GrauhundReisen.ReadModel.EventHandler
 	{
 		readonly string _bookingsPath;
 
-		EventStoreClient _eventStoreClient;
-
-		public BookingHandler (EventStoreClient eventStoreClient, String connectionString)
+		public BookingHandler (String connectionString)
 		{
 			_bookingsPath = connectionString;
-			_eventStoreClient = eventStoreClient;
 		}
 
 		public async Task Handle(dynamic @event){
@@ -25,8 +21,6 @@ namespace GrauhundReisen.ReadModel.EventHandler
 		}
 
 		async Task HandleEvent(BookingOrdered bookingOrdered){
-
-			_eventStoreClient.Store (bookingOrdered);
 
 			var traveller = new Traveller{ 
 				ID = Guid.NewGuid().ToString(),
@@ -52,18 +46,25 @@ namespace GrauhundReisen.ReadModel.EventHandler
 			await SaveBookingAsFile (booking);
 		}
 
-		async Task HandleEvent(BookingUpdated bookingUpdated){
+		async Task HandleEvent(BookingEmailChanged emailChanged){
 
-			_eventStoreClient.Store (bookingUpdated);
+            var booking = ReadBookingFromFile(emailChanged.BookingId);
 
-			var booking = ReadBookingFromFile (bookingUpdated.BookingId);
+            booking.Traveller.EMail = emailChanged.Email;
 
-			booking.Traveller.EMail = bookingUpdated.Email;
-			booking.Payment.CreditCardNumber = bookingUpdated.CreditCardNumber;
-
-			await DeleteBooking (bookingUpdated.BookingId);
+            await DeleteBooking(emailChanged.BookingId);
 			await SaveBookingAsFile (booking);
 		}
+
+        async Task HandleEvent(BookingCreditCardNumberChanged creditCardChanged)
+        {
+            var booking = ReadBookingFromFile(creditCardChanged.BookingId);
+
+            booking.Payment.CreditCardNumber = creditCardChanged.CreditCardNumber;
+
+            await DeleteBooking(creditCardChanged.BookingId);
+            await SaveBookingAsFile(booking);
+        }
 
 		async Task HandleEvent(object @event){
 		
