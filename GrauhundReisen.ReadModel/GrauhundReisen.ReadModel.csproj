@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -44,6 +44,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Booking.cs" />
+    <Compile Include="Models\CreditCardType.cs" />
+    <Compile Include="Models\Destination.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="EventHandler\BookingHandler.cs" />
     <Compile Include="Repositories\Bookings.cs" />
@@ -55,10 +58,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="EventHandler\" />
-    <Folder Include="Repositories\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\GrauhundReisen.Contracts\GrauhundReisen.Contracts.csproj">
       <Project>{8FEF2173-D048-4846-B423-ECF201CD0845}</Project>

@@ -1,8 +1,8 @@
 ﻿using System;
 using GrauhundReisen.Contracts.Events;
 using System.IO;
+using GrauhundReisen.ReadModel.Models;
 using Newtonsoft.Json;
-using GrauhundReisen.Contracts.ViewModels;
 using System.Threading.Tasks;
 
 namespace GrauhundReisen.ReadModel.EventHandler
@@ -22,25 +22,14 @@ namespace GrauhundReisen.ReadModel.EventHandler
 
 		async Task HandleEvent(BookingOrdered bookingOrdered){
 
-			var traveller = new Traveller{ 
-				ID = Guid.NewGuid().ToString(),
-				EMail =bookingOrdered.Email,
-				FirstName = bookingOrdered.FirstName,
-				LastName=bookingOrdered.LastName
-			};
-
-			var payment = new TravellersBankAccount{ 
-				ID = Guid.NewGuid().ToString(),
-				CreditCardType = bookingOrdered.CreditCardType,
-				CreditCardNumber = bookingOrdered.CreditCardNumber,
-				TravellerID = traveller.ID
-			};
-
 			var booking = new Booking {
 				Id = bookingOrdered.BookingId,
 				Destination = bookingOrdered.Destination,
-				Traveller = traveller,
-				Payment = payment
+                FirstName = bookingOrdered.FirstName,
+                LastName = bookingOrdered.LastName,
+                EMail = bookingOrdered.Email,
+                CreditCardNumber = bookingOrdered.CreditCardNumber,
+                CreditCardType = bookingOrdered.CreditCardType
 			};
 
 			await SaveBookingAsFile (booking);
@@ -50,7 +39,7 @@ namespace GrauhundReisen.ReadModel.EventHandler
 
             var booking = ReadBookingFromFile(emailChanged.BookingId);
 
-            booking.Traveller.EMail = emailChanged.Email;
+            booking.EMail = emailChanged.Email;
 
             await DeleteBooking(emailChanged.BookingId);
 			await SaveBookingAsFile (booking);
@@ -60,7 +49,7 @@ namespace GrauhundReisen.ReadModel.EventHandler
         {
             var booking = ReadBookingFromFile(creditCardChanged.BookingId);
 
-            booking.Payment.CreditCardNumber = creditCardChanged.CreditCardNumber;
+            booking.CreditCardNumber = creditCardChanged.CreditCardNumber;
 
             await DeleteBooking(creditCardChanged.BookingId);
             await SaveBookingAsFile(booking);

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using GrauhundReisen.Contracts.ViewModels;
+using GrauhundReisen.ReadModel.Models;
 
 namespace GrauhundReisen.ReadModel.Repositories
 {

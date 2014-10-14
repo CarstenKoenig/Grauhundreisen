@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using GrauhundReisen.Contracts.ViewModels;
+using GrauhundReisen.ReadModel.Models;
 using GrauhundReisen.ReadModel.Repositories;
 
 namespace GrauhundReisen.ReadModel.Repositories

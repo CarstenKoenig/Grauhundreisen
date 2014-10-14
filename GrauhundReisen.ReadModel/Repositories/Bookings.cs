@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
+using GrauhundReisen.ReadModel.Models;
 using Newtonsoft.Json;
-using GrauhundReisen.Contracts.ViewModels;
 
 namespace GrauhundReisen.ReadModel.Repositories
 {
@@ -9,9 +9,9 @@ namespace GrauhundReisen.ReadModel.Repositories
 	{
 		readonly String bookingsPath;
 
-		public Bookings (string viewModelsConnection)
+		public Bookings (string connectionString)
 		{
-			bookingsPath = viewModelsConnection;
+			bookingsPath = connectionString;
 		}
 
 		public Booking GetBookingBy(String bookingId){
