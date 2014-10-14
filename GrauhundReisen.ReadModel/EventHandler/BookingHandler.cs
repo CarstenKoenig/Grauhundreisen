@@ -4,16 +4,20 @@ using System.IO;
 using Newtonsoft.Json;
 using GrauhundReisen.Contracts.ViewModels;
 using System.Threading.Tasks;
+using EyKeule;
 
 namespace GrauhundReisen.ReadModel.EventHandler
 {
 	public class BookingHandler
 	{
-		readonly string bookingsPath;
+		readonly string _bookingsPath;
 
-		public BookingHandler (string connectionString)
+		EventStoreClient _eventStoreClient;
+
+		public BookingHandler (EventStoreClient eventStoreClient, String connectionString)
 		{
-			bookingsPath = connectionString;
+			_bookingsPath = connectionString;
+			_eventStoreClient = eventStoreClient;
 		}
 
 		public async Task Handle(dynamic @event){
@@ -21,6 +25,8 @@ namespace GrauhundReisen.ReadModel.EventHandler
 		}
 
 		async Task HandleEvent(BookingOrdered bookingOrdered){
+
+			_eventStoreClient.Store (bookingOrdered);
 
 			var traveller = new Traveller{ 
 				ID = Guid.NewGuid().ToString(),
@@ -48,6 +54,8 @@ namespace GrauhundReisen.ReadModel.EventHandler
 
 		async Task HandleEvent(BookingUpdated bookingUpdated){
 
+			_eventStoreClient.Store (bookingUpdated);
+
 			var booking = ReadBookingFromFile (bookingUpdated.BookingId);
 
 			booking.Traveller.EMail = bookingUpdated.Email;
@@ -68,7 +76,7 @@ namespace GrauhundReisen.ReadModel.EventHandler
 
 		private async Task SaveBookingAsFile (Booking booking)
 		{
-			var savePath = Path.Combine (bookingsPath, booking.Id);
+			var savePath = Path.Combine (_bookingsPath, booking.Id);
 			var bookingAsJson = JsonConvert.SerializeObject (booking);
 
 			await Task.Factory.StartNew(()=> File.WriteAllText (savePath, bookingAsJson));
@@ -76,7 +84,7 @@ namespace GrauhundReisen.ReadModel.EventHandler
 
 		private Booking ReadBookingFromFile (String bookingId)
 		{
-			var bookingPath = Path.Combine (bookingsPath, bookingId);
+			var bookingPath = Path.Combine (_bookingsPath, bookingId);
 
 			var bookingAsString = File.ReadAllText (bookingPath);
 
@@ -86,7 +94,7 @@ namespace GrauhundReisen.ReadModel.EventHandler
 		}
 
 		private async Task DeleteBooking(String bookingId){
-			var bookingPath = Path.Combine (bookingsPath, bookingId);
+			var bookingPath = Path.Combine (_bookingsPath, bookingId);
 
 			await Task.Factory.StartNew(() => File.Delete (bookingPath));
 		}
