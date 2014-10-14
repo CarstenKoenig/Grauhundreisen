@@ -3,6 +3,7 @@ using GrauhundReisen.Contracts.Events;
 using System.IO;
 using Newtonsoft.Json;
 using GrauhundReisen.Contracts.ViewModels;
+using System.Threading.Tasks;
 
 namespace GrauhundReisen.ReadModel.EventHandler
 {
@@ -15,11 +16,11 @@ namespace GrauhundReisen.ReadModel.EventHandler
 			bookingsPath = connectionString;
 		}
 
-		public void Handle(dynamic @event){
-			HandleEvent (@event);
+		public async Task Handle(dynamic @event){
+			await HandleEvent (@event);
 		}
 
-		void HandleEvent(BookingOrdered bookingOrdered){
+		async Task HandleEvent(BookingOrdered bookingOrdered){
 
 			var traveller = new Traveller{ 
 				ID = Guid.NewGuid().ToString(),
@@ -42,31 +43,35 @@ namespace GrauhundReisen.ReadModel.EventHandler
 				Payment = payment
 			};
 
-			SaveBookingAsFile (booking);
+			await SaveBookingAsFile (booking);
 		}
 
-		void HandleEvent(BookingUpdated bookingUpdated){
+		async Task HandleEvent(BookingUpdated bookingUpdated){
 
 			var booking = ReadBookingFromFile (bookingUpdated.BookingId);
 
 			booking.Traveller.EMail = bookingUpdated.Email;
 			booking.Payment.CreditCardNumber = bookingUpdated.CreditCardNumber;
 
-			DeleteBooking (bookingUpdated.BookingId);
-			SaveBookingAsFile (booking);
+			await DeleteBooking (bookingUpdated.BookingId);
+			await SaveBookingAsFile (booking);
 		}
 
-		void HandleEvent(object @event){
+		async Task HandleEvent(object @event){
 		
-			throw new ArgumentException ("This type of event has no handler");
+			await Task.Factory.StartNew(() => 
+				{
+					throw new ArgumentException(
+						String.Format("This type ({0}) of event has no handler", @event.GetType()));
+				});
 		}
 
-		private void SaveBookingAsFile (Booking booking)
+		private async Task SaveBookingAsFile (Booking booking)
 		{
 			var savePath = Path.Combine (bookingsPath, booking.Id);
 			var bookingAsJson = JsonConvert.SerializeObject (booking);
 
-			File.WriteAllText (savePath, bookingAsJson);
+			await Task.Factory.StartNew(()=> File.WriteAllText (savePath, bookingAsJson));
 		}
 
 		private Booking ReadBookingFromFile (String bookingId)
@@ -80,10 +85,10 @@ namespace GrauhundReisen.ReadModel.EventHandler
 			return booking;
 		}
 
-		private void DeleteBooking(String bookingId){
+		private async Task DeleteBooking(String bookingId){
 			var bookingPath = Path.Combine (bookingsPath, bookingId);
 
-			File.Delete (bookingPath);
+			await Task.Factory.StartNew(() => File.Delete (bookingPath));
 		}
 	}
 }

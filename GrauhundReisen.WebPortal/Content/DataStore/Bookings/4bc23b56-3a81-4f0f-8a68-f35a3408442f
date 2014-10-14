@@ -1,1 +1,0 @@
-{"Id":"4bc23b56-3a81-4f0f-8a68-f35a3408442f","Traveller":{"ID":"f85287e7-07b0-4967-a3c5-e76cfcfc18d9","FirstName":"A","LastName":"B","EMail":"C"},"Payment":{"ID":"811c8c3a-d7b4-4ffa-9896-5b004467b5f9","TravellerID":"f85287e7-07b0-4967-a3c5-e76cfcfc18d9","CreditCardType":"American Express","CreditCardNumber":"E"},"Destination":"Berlin"}

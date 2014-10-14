@@ -3,6 +3,7 @@ using Nancy;
 using GrauhundReisen.Contracts.Events;
 using GrauhundReisen.ReadModel.EventHandler;
 using GrauhundReisen.ReadModel.Repositories;
+using System.Threading.Tasks;
 
 namespace GrauhundReisen.WebPortal
 {
@@ -16,11 +17,11 @@ namespace GrauhundReisen.WebPortal
 
 			Get [""] = _ => View ["index", new { bookingForm.CreditCardTypes, bookingForm.Destinations }];
 
-			Post [""] = _ => ProceedBooking ();
+			Post ["", runAsync: true] = async(parameters, cancel) => await ProceedBooking();
 		}
 
-		object ProceedBooking ()
-		{
+		async Task<object> ProceedBooking(){
+
 			var bookingOrdered = new BookingOrdered () {
 				BookingId = Guid.NewGuid ().ToString (),
 				Destination = this.Request.Form ["Destination"].Value,
@@ -31,7 +32,7 @@ namespace GrauhundReisen.WebPortal
 				LastName = this.Request.Form ["TravellerLastName"].Value
 			};
 
-			_bookingHandler.Handle (bookingOrdered);
+			await _bookingHandler.Handle (bookingOrdered);
 
 			return View ["confirmation", new {bookingOrdered.BookingId}];
 		}

@@ -2,6 +2,7 @@
 using GrauhundReisen.Contracts.Events;
 using GrauhundReisen.ReadModel.EventHandler;
 using GrauhundReisen.ReadModel.Repositories;
+using System.Threading.Tasks;
 
 namespace GrauhundReisen.WebPortal
 {
@@ -16,7 +17,7 @@ namespace GrauhundReisen.WebPortal
 			_bookingHandler = bookingHandler;
 
 			Get ["change-booking/{id}"] = _ => GetBookingFormFor ((string)_.id);
-			Post ["change-booking"] = _ => UpdateBooking ();
+			Post ["change-booking", true] = async(parameters,cancel) => await UpdateBooking ();
 		}
 
 		object GetBookingFormFor (string bookingId)
@@ -26,7 +27,7 @@ namespace GrauhundReisen.WebPortal
 			return View ["change-booking", booking];
 		}
 
-		object UpdateBooking ()
+		async Task<object> UpdateBooking ()
 		{
 			var bookingUpdated = new BookingUpdated { 
 				BookingId = this.Request.Form ["BookingId"].Value,
@@ -34,7 +35,7 @@ namespace GrauhundReisen.WebPortal
 				CreditCardNumber = this.Request.Form ["PaymentCreditCardNumber"].Value
 			};
 
-			_bookingHandler.Handle (bookingUpdated);
+			await _bookingHandler.Handle (bookingUpdated);
 
 			return View ["change-confirmation"];
 		}
