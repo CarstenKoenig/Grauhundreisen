@@ -79,7 +79,7 @@ namespace GrauhundReisen.ReadModel.EventHandler
 			var savePath = Path.Combine (_bookingsPath, booking.Id);
 			var bookingAsJson = JsonConvert.SerializeObject (booking);
 
-			await Task.Factory.StartNew(()=> File.WriteAllText (savePath, bookingAsJson));
+			await Task.Factory.StartNew(() => File.WriteAllText (savePath, bookingAsJson));
 		}
 
 		private Booking ReadBookingFromFile (String bookingId)
