@@ -2,13 +2,16 @@
 using Nancy;
 using GrauhundReisen.ReadModel.EventHandler;
 using GrauhundReisen.ReadModel.Repositories;
+using Grauhhundreisen.Infrastructure;
 using Nancy.TinyIoc;
 
 namespace GrauhundReisen.WebPortal
 {
     public class Boostrapper : DefaultNancyBootstrapper
     {
-        const string ConnectionString = @"C:\Development\Community\GrauhundReisen\GrauhundReisen.WebPortal\Content\DataStore\Bookings\";
+		  // Auskommentieren und anpassen für die eigene Umgebung
+		  // const string ConnectionString = @"C:\[Path to your Development Folder]\GrauhundReisen\GrauhundReisen.WebPortal\Content\DataStore\Bookings\";
+		  const String ConnectionString = "Content/DataStore/Bookings/";
 
         protected override void ApplicationStartup(TinyIoCContainer container, Nancy.Bootstrapper.IPipelines pipelines)
         {

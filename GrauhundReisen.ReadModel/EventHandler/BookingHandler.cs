@@ -4,6 +4,7 @@ using System.IO;
 using Newtonsoft.Json;
 using GrauhundReisen.Contracts.ViewModels;
 using System.Threading.Tasks;
+using Grauhhundreisen.Infrastructure;
 
 namespace GrauhundReisen.ReadModel.EventHandler
 {
@@ -22,14 +23,14 @@ namespace GrauhundReisen.ReadModel.EventHandler
 
 		async Task HandleEvent(BookingOrdered bookingOrdered){
 
-			var traveller = new Traveller{ 
+			var traveller = new Traveller{
 				ID = Guid.NewGuid().ToString(),
 				EMail =bookingOrdered.Email,
 				FirstName = bookingOrdered.FirstName,
 				LastName=bookingOrdered.LastName
 			};
 
-			var payment = new TravellersBankAccount{ 
+			var payment = new TravellersBankAccount{
 				ID = Guid.NewGuid().ToString(),
 				CreditCardType = bookingOrdered.CreditCardType,
 				CreditCardNumber = bookingOrdered.CreditCardNumber,
@@ -67,8 +68,8 @@ namespace GrauhundReisen.ReadModel.EventHandler
         }
 
 		async Task HandleEvent(object @event){
-		
-			await Task.Factory.StartNew(() => 
+
+			await Task.Factory.StartNew(() =>
 				{
 					throw new ArgumentException(
 						String.Format("This type ({0}) of event has no handler", @event.GetType()));
@@ -101,4 +102,3 @@ namespace GrauhundReisen.ReadModel.EventHandler
 		}
 	}
 }
-
