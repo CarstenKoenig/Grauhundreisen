@@ -1,12 +1,12 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{63110AE7-9DF9-4745-8026-2DE15FC064A3}</ProjectGuid>
+    <ProjectGuid>{2C740D79-9D03-456F-AB57-1FD788884602}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>GrauhundReisen.ReadModel</RootNamespace>
-    <AssemblyName>GrauhundReisen.ReadModel</AssemblyName>
+    <RootNamespace>Grauhhundreisen.Infrastructure</RootNamespace>
+    <AssemblyName>Grauhhundreisen.Infrastructure</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -29,35 +29,31 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="RestSharp">
+      <HintPath>..\packages\RestSharp.104.4.0\lib\net4\RestSharp.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="fastJSON">
+      <HintPath>..\packages\fastJSON.2.1.4.0\lib\net40\fastjson.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Booking.cs" />
-    <Compile Include="Models\CreditCardType.cs" />
-    <Compile Include="Models\Destination.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="EventHandler\BookingHandler.cs" />
-    <Compile Include="Repositories\Bookings.cs" />
-    <Compile Include="Repositories\CreditCardTypes.cs" />
-    <Compile Include="Repositories\Destinations.cs" />
-    <Compile Include="Repositories\BookingForm.cs" />
+    <Compile Include="EventStoreClient.cs" />
+    <Compile Include="EventStoreClientConfiguration.cs" />
+    <Compile Include="EventStoreClientExtensions.cs" />
+    <Compile Include="EventBag.cs" />
+    <Compile Include="PostToServerException.cs" />
+    <Compile Include="RemoveEventStoreException.cs" />
+    <Compile Include="EventStoreClientException.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\GrauhundReisen.Contracts\GrauhundReisen.Contracts.csproj">
       <Project>{8FEF2173-D048-4846-B423-ECF201CD0845}</Project>
       <Name>GrauhundReisen.Contracts</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Grauhhundreisen.Infrastructure\Grauhundreisen.Infrastructure.csproj">
-      <Project>{2C740D79-9D03-456F-AB57-1FD788884602}</Project>
-      <Name>Grauhundreisen.Infrastructure</Name>
-    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

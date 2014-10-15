@@ -1,5 +1,5 @@
 ﻿using System;
-using EyKeule;
+using Grauhundreisen.Infrastructure;
 
 namespace GrauhundReisen.Domain
 {
