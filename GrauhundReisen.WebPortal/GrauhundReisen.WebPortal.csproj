@@ -114,6 +114,7 @@
     <Content Include="Views\Partials\_ChangeDestination.html" />
     <Content Include="Views\Partials\_ConfirmChanges.html" />
     <Content Include="Views\change-confirmation.html" />
+    <Content Include="Views\show-all-my-events.html" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller\Admin.cs" />

@@ -10,9 +10,9 @@ namespace GrauhundReisen.WebPortal.Controller
         {
             Get["show-all-my-events"] = _ =>
             {
-                var events = bookingService.GetAllEvents();
+                var events = bookingService.GetAllEventsAsString();
 
-                return View["show-all-my-events", events];
+				return View["show-all-my-events", events];
             };
         }
     }

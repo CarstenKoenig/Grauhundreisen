@@ -65,5 +65,10 @@ namespace GrauhundReisen.Domain.Services
         {
             return _eventStoreClient.RetrieveAll();
         }
+
+		public IEnumerable<String> GetAllEventsAsString ()
+		{
+			return _eventStoreClient.RetrieveAllAsString ();
+		}
     }
 }

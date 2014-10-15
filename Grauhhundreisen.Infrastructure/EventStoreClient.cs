@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using GrauhundReisen.Contracts;
-using GrauhundReisen.Contracts.Events;
 using RestSharp;
 using RestSharp.Deserializers;
 using fastJSON;
@@ -106,6 +105,13 @@ namespace Grauhundreisen.Infrastructure
 			return allEvents;
 		}
 
+		public IEnumerable<String> RetrieveAllAsString(){
+
+			var allEvents = GetFromServerAsString (RetrieveUri);
+
+			return allEvents;
+		}
+
 		public IEnumerable<object> RetrieveFor(String entityId){
 
 			var entityUrl = RetrieveUri.Add (entityId);
@@ -173,7 +179,10 @@ namespace Grauhundreisen.Infrastructure
 					.OrderBy(eb=>eb.TimeStamp)
 					.Select (eb => {
 						var eventType = ContractTypes.Resolve(eb.EventType);
-						return JSON.ToObject (eb.EventData, eventType);
+
+						return eventType != null 
+								? JSON.ToObject (eb.EventData, eventType) 
+								: eb.EventData;
 					})
 					.ToList ();
 
@@ -181,6 +190,38 @@ namespace Grauhundreisen.Infrastructure
 			}
 
 			return new List<object> ();
+		}
+
+		IEnumerable<String> GetFromServerAsString (Uri requestUrl)
+		{
+			var restClient = new RestClient(requestUrl.ToString());
+
+			var request = new RestRequest (Method.GET);
+			request.RequestFormat = DataFormat.Json;
+
+			var response = restClient.Execute (request);
+
+			if (response.StatusCode == System.Net.HttpStatusCode.OK) {
+				var deserial = new JsonDeserializer ();
+				var eventBags = deserial.Deserialize<List<EventBag>> (response);
+
+				var events = eventBags
+					.Where (eb => eb.EventType.IsNotNullOrEmpty ())
+					.OrderBy(eb=>eb.TimeStamp)
+					.Select (eb => {
+
+						object eventdescription = new { Type = eb.EventType, Content = eb.EventData };
+
+						var serializedEventDescription = JSON.ToJSON(eventdescription, new JSONParameters{EnableAnonymousTypes=true});
+
+						return serializedEventDescription;
+					})
+					.ToList ();
+
+				return events;
+			}
+
+			return new List<String> ();
 		}
 	}
 }
