@@ -56,8 +56,8 @@ namespace GrauhundReisen.ReadModel.EventHandler
         }
 
 		async Task HandleEvent(object @event){
-		
-			await Task.Factory.StartNew(() => 
+
+			await Task.Factory.StartNew(() =>
 				{
 					throw new ArgumentException(
 						String.Format("This type ({0}) of event has no handler", @event.GetType()));
@@ -90,4 +90,3 @@ namespace GrauhundReisen.ReadModel.EventHandler
 		}
 	}
 }
-
