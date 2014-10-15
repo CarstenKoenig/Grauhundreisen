@@ -51,18 +51,6 @@
       <HintPath>..\packages\Nancy.Hosting.Aspnet.0.23.2\lib\net40\Nancy.Hosting.Aspnet.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="fastJSON">
-      <HintPath>..\packages\fastJSON.2.1.4.0\lib\net40\fastjson.dll</HintPath>
-    </Reference>
-    <Reference Include="RestSharp">
-      <HintPath>..\packages\RestSharp.104.4.0\lib\net4\RestSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="EyKeule">
-      <HintPath>..\packages\jfe.EventStoreClient.0.11\lib\net45\EyKeule.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -145,6 +133,10 @@
     <ProjectReference Include="..\GrauhundReisen.ReadModel\GrauhundReisen.ReadModel.csproj">
       <Project>{63110AE7-9DF9-4745-8026-2DE15FC064A3}</Project>
       <Name>GrauhundReisen.ReadModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Grauhhundreisen.Infrastructure\Grauhhundreisen.Infrastructure.csproj">
+      <Project>{2C740D79-9D03-456F-AB57-1FD788884602}</Project>
+      <Name>Grauhhundreisen.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
