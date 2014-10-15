@@ -40,6 +40,7 @@
     <Compile Include="ViewModels\Destination.cs" />
     <Compile Include="ViewModels\Traveller.cs" />
     <Compile Include="ViewModels\TravellersBankAccount.cs" />
+    <Compile Include="ContractTypes.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />

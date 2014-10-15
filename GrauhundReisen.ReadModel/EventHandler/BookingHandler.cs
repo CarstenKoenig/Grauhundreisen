@@ -4,7 +4,6 @@ using System.IO;
 using Newtonsoft.Json;
 using GrauhundReisen.Contracts.ViewModels;
 using System.Threading.Tasks;
-using Grauhhundreisen.Infrastructure;
 
 namespace GrauhundReisen.ReadModel.EventHandler
 {

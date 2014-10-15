@@ -1,7 +1,7 @@
 using System;
 using RestSharp.Serializers;
 
-namespace Grauhhundreisen.Infrastructure
+namespace Grauhundreisen.Infrastructure
 {
 
 	static class EventStoreClientExtensions

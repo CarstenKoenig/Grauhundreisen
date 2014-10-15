@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -30,15 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EyKeule">
-      <HintPath>..\packages\jfe.EventStoreClient.0.11\lib\net45\EyKeule.dll</HintPath>
-    </Reference>
-    <Reference Include="fastjson">
-      <HintPath>..\packages\fastJSON.2.1.4.0\lib\net40\fastjson.dll</HintPath>
-    </Reference>
-    <Reference Include="RestSharp">
-      <HintPath>..\packages\RestSharp.104.4.0\lib\net4\RestSharp.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -54,12 +45,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\GrauhundReisen.Contracts\GrauhundReisen.Contracts.csproj">
       <Project>{8FEF2173-D048-4846-B423-ECF201CD0845}</Project>
       <Name>GrauhundReisen.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Grauhhundreisen.Infrastructure\Grauhundreisen.Infrastructure.csproj">
+      <Project>{2C740D79-9D03-456F-AB57-1FD788884602}</Project>
+      <Name>Grauhundreisen.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

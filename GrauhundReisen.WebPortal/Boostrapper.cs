@@ -1,8 +1,8 @@
-﻿using GrauhundReisen.Domain.Services;
-using Nancy;
+﻿using System;
+using GrauhundReisen.Domain.Services;
 using GrauhundReisen.ReadModel.EventHandler;
 using GrauhundReisen.ReadModel.Repositories;
-using Grauhhundreisen.Infrastructure;
+using Nancy;
 using Nancy.TinyIoc;
 
 namespace GrauhundReisen.WebPortal

@@ -60,7 +60,7 @@
   <ProjectExtensions>
     <MonoDevelop>
       <Properties>
-        <XspParameters Port="8080" Address="127.0.0.1" SslMode="None" SslProtocol="Default" KeyType="None" CertFile="" KeyFile="" PasswordOptions="None" Password="" Verbose="True" />
+        <XspParameters Port="0" Address="127.0.0.1" SslMode="None" SslProtocol="Default" KeyType="None" CertFile="" KeyFile="" PasswordOptions="None" Password="" Verbose="True" />
       </Properties>
     </MonoDevelop>
     <VisualStudio>
@@ -130,16 +130,16 @@
       <Name>GrauhundReisen.Contracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\GrauhundReisen.Domain\GrauhundReisen.Domain.csproj">
-      <Project>{65bcb66b-65cd-4380-a51c-92524fa4483d}</Project>
+      <Project>{65BCB66B-65CD-4380-A51C-92524FA4483D}</Project>
       <Name>GrauhundReisen.Domain</Name>
     </ProjectReference>
     <ProjectReference Include="..\GrauhundReisen.ReadModel\GrauhundReisen.ReadModel.csproj">
       <Project>{63110AE7-9DF9-4745-8026-2DE15FC064A3}</Project>
       <Name>GrauhundReisen.ReadModel</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Grauhhundreisen.Infrastructure\Grauhhundreisen.Infrastructure.csproj">
+    <ProjectReference Include="..\Grauhhundreisen.Infrastructure\Grauhundreisen.Infrastructure.csproj">
       <Project>{2C740D79-9D03-456F-AB57-1FD788884602}</Project>
-      <Name>Grauhhundreisen.Infrastructure</Name>
+      <Name>Grauhundreisen.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />

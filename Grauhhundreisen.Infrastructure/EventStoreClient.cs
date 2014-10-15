@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using GrauhundReisen.Contracts;
+using GrauhundReisen.Contracts.Events;
 using RestSharp;
 using RestSharp.Deserializers;
-using System.Linq;
 using fastJSON;
 
-namespace Grauhhundreisen.Infrastructure
+namespace Grauhundreisen.Infrastructure
 {
 	public class EventStoreClient
 	{
@@ -165,11 +167,16 @@ namespace Grauhhundreisen.Infrastructure
 			if (response.StatusCode == System.Net.HttpStatusCode.OK) {
 				var deserial = new JsonDeserializer ();
 				var eventBags = deserial.Deserialize<List<EventBag>> (response);
+
 				var events = eventBags
 					.Where (eb => eb.EventType.IsNotNullOrEmpty ())
 					.OrderBy(eb=>eb.TimeStamp)
-					.Select (eb => JSON.ToObject (eb.EventData, Type.GetType (eb.EventType)))
+					.Select (eb => {
+						var eventType = ContractTypes.Resolve(eb.EventType);
+						return JSON.ToObject (eb.EventData, eventType);
+					})
 					.ToList ();
+
 				return events;
 			}
 

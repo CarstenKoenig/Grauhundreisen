@@ -1,6 +1,6 @@
 using System;
 
-namespace Grauhhundreisen.Infrastructure
+namespace Grauhundreisen.Infrastructure
 {
 
 	public class PostToServerException : Exception
