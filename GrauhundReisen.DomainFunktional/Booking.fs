@@ -17,101 +17,84 @@ module Booking =
         | MasterCard      of string
         | Visa            of string
         | AmericanExpress of string
+        | NoCreditCardSelected
 
     type Destination = string
 
-    type T = 
-        { BookingId   : BookingId
-          Name        : Name
+    type Order = 
+        { Name        : Name
           Email       : Email
           CreditCard  : CreditCard
           Destination : Destination
         }
+
+    let createOrder name email creditCard destination =
+        { Name        = name
+          Email       = email
+          CreditCard  = creditCard
+          Destination = destination
+        }
+
+    type T = Booking of BookingId * Order
+
+    let create id name email creditCard destination =
+        Booking (id, createOrder name email creditCard destination)
+
 
     type Events =
         | Ordered           of T
         | EmailChanged      of Email
         | CreditCardChanged of CreditCard
 
-    module ReadModel =
-        // normalerweise gehört das ins Readmodel,
-        // ich möchte aber erstmal nur eine F# Lib zum Demonstrieren
+    [<AutoOpen>]
+    module Convert = 
 
-        type Booking = GrauhundReisen.ReadModel.Models.Booking
-
-        let empty = GrauhundReisen.ReadModel.Models.Booking()
-
-        let internal fromCreditCard (c : CreditCard) =
+        let fromCreditCard (c : CreditCard) =
             match c with
             | AmericanExpress n -> ("American Express", n)
             | Visa n            -> ("Visa", n)
             | MasterCard n      -> ("MasterCard", n)
+            | NoCreditCardSelected -> ("", "")
 
-        let internal toCreditCard (t : string, n : string) =
+        let toCreditCard (t : string, n : string) =
                 match t with
                 | "American Express" -> AmericanExpress n
                 | "Visa"             -> Visa n
                 | "Master Card"      -> MasterCard n
-                | _                  -> failwith ("Unbekannter Kreditkartentyp: " + t)
-            
-
-        let fromModel (model : T) =
-            let (ct, cn) = fromCreditCard model.CreditCard
-            let rm = Booking()
-            rm.Id <- model.BookingId.ToString()
-            rm.FirstName <- model.Name.Givenname
-            rm.LastName <- model.Name.Surname
-            rm.CreditCardNumber <- cn
-            rm.CreditCardType <- ct
-            rm.Destination <- model.Destination
-            rm
-
-        let toModel (rm : Booking) =
-            { BookingId   = EntityId.Parse rm.Id
-              Name        = { Givenname = rm.FirstName; Surname = rm.LastName }
-              Email       = Email rm.EMail
-              CreditCard  = toCreditCard (rm.CreditCardType, rm.CreditCardNumber)
-              Destination = rm.Destination
-            }
-
-        let copy (rm : GrauhundReisen.ReadModel.Models.Booking) = 
-            let rm' = Booking()
-            rm'.Id <- rm.Id
-            rm'.FirstName <- rm.FirstName
-            rm'.LastName <- rm.LastName
-            rm'.CreditCardNumber <- rm.CreditCardNumber
-            rm'.CreditCardType <- rm.CreditCardType
-            rm'.Destination <- rm.Destination
-            rm'
-            
+                | ""                 -> NoCreditCardSelected
+                | _                  -> failwith (sprintf "unbekannter Kreditkartentyp [%s]" t)
 
     module Projections =
+        let bookingId  = Projection.latest (function
+                            | Ordered (Booking (id,_)) -> Some id
+                            | _                        -> None)
+
+        let name = Projection.latest (function
+                            | Ordered (Booking (_,t)) -> Some t.Name
+                            | _                       -> None)
+
+        let destination = Projection.latest (function
+                            | Ordered (Booking (_,t)) -> Some t.Destination
+                            | _                       -> None)
+
+        let email = Projection.latest (function
+                            | Ordered (Booking (_,t)) -> Some t.Email
+                            | EmailChanged  e         -> Some e
+                            | _                       -> None)
+
         let creditCard = Projection.latest (function 
-                            | CreditCardChanged c -> Some c
-                            | Ordered t           -> Some t.CreditCard
-                            | _                   -> None)
-
-        let bookingReadmodel =
-            Projection.create
-                ReadModel.empty
-                (fun rm event ->
-                    match event with
-                    | Ordered m  -> 
-                        ReadModel.fromModel m
-                    | EmailChanged (Email e) ->  
-                        let rm' = ReadModel.copy rm
-                        rm'.EMail <- e
-                        rm'
-                    | CreditCardChanged c -> 
-                        let (ct, cn) = ReadModel.fromCreditCard c
-                        let rm' = ReadModel.copy rm
-                        rm'.CreditCardNumber <- cn
-                        rm'.CreditCardType <- ct
-                        rm')
-
+                            | Ordered (Booking (_,t)) -> Some t.CreditCard
+                            | CreditCardChanged c     -> Some c
+                            | _                       -> None)
 
         let booking =
-            Projection.map ReadModel.toModel bookingReadmodel
+            create $ bookingId 
+            <*> name <*> email 
+            <*> creditCard <*> destination
+
+        let allEvents : Projection.T<Events, _, Events seq> =
+            Projection.events ()
+            |> Projection.map List.toSeq
 
     module Service = 
 
@@ -121,15 +104,13 @@ module Booking =
             EventStore.fromRepository rep
             |> Service
 
+        let registerEventHandler handler (Service service) =
+            service |> EventStore.subscribe handler
+
         let order (bookingId, destination, creditCard, email, name) (Service service) =
             let event = 
-                Ordered 
-                    { BookingId   = bookingId
-                      Name        = name
-                      Email       = email
-                      CreditCard  = creditCard 
-                      Destination = destination
-                    }
+                create bookingId name email creditCard destination
+                |> Ordered
             service |> EventStore.add bookingId event
 
         let update (bookingId, email, creditCardNr) (Service service) =
@@ -153,7 +134,7 @@ module Booking =
                           email : string, firstName : string, lastName : string) =
             // nicht sehr glücklich darüber, aber ich möchte Janeks Access so weit
             // wie möglich erhalten
-            let creditCard = ReadModel.toCreditCard (creditCardType, creditCardNumber)
+            let creditCard = toCreditCard (creditCardType, creditCardNumber)
             let name = { Givenname = firstName; Surname = lastName }
             let bookingId' = EntityId.Parse bookingId
             (fun () ->
@@ -174,16 +155,15 @@ module Booking =
                 service
                 |> update (bookingId', Email email, creditCardNumber)
             ) |> asTask :> System.Threading.Tasks.Task
-        
-        let readModelEventHandler (rmRepo : GrauhundReisen.ReadModel.Repositories.Bookings)
-                         (bookingId : EntityId, event) =
-            let bookingId' = string bookingId
-            let rm = rmRepo.GetBookingBy bookingId'
-            let rm = if rm = null then ReadModel.empty else rm
-            let rm' = Projection.foldFrom Projections.bookingReadmodel rm (Seq.singleton event)
-            rmRepo.DeleteBooking bookingId'
-            rmRepo.SaveBookingAsFile rm'
 
-        let SetupReadmodelHandler(rmRepo, Service service) =
-            service.subscribe (readModelEventHandler rmRepo)
+        let GetAllEventsAsStringFor(Service service, id) =
+            let serialize ev = Newtonsoft.Json.JsonConvert.SerializeObject ev
+            service
+            |> EventStore.restore Projections.allEvents id
+            |> Seq.map serialize
 
+        /// kann ich momentan noch nicht implementieren, da ich die Abfrage aller
+        /// Keys aus dem EventStore/Repository im Moment nicht unterstüzte
+        /// Ich denke darüber nach
+        let GetAllEventsAsString(Service service) =
+            Seq.empty

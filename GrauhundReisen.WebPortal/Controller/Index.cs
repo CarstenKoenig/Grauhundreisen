@@ -1,5 +1,4 @@
 ﻿using System;
-using GrauhundReisen.Domain.Services;
 using Nancy;
 using GrauhundReisen.ReadModel.Repositories;
 using System.Threading.Tasks;

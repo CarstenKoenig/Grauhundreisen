@@ -5,13 +5,13 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>a7f6157d-cb71-4c47-baac-f50a810690e5</ProjectGuid>
+    <ProjectGuid>5e6018d9-6bda-41ef-8a38-440079facfc4</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>GrauhundReisen.DomainFunktional</RootNamespace>
-    <AssemblyName>GrauhundReisen.DomainFunktional</AssemblyName>
+    <RootNamespace>GrauhundReisen.ReadModelFunktional</RootNamespace>
+    <AssemblyName>GrauhundReisen.ReadModelFunktional</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFSharpCoreVersion>4.3.1.0</TargetFSharpCoreVersion>
-    <Name>GrauhundReisen.DomainFunktional</Name>
+    <Name>GrauhundReisen.ReadModelFunktional</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,7 +21,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>bin\Debug\GrauhundReisen.DomainFunktional.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\GrauhundReisen.ReadModelFunktional.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,7 +30,7 @@
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>bin\Release\GrauhundReisen.DomainFunktional.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\GrauhundReisen.ReadModelFunktional.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EventSourcing">
@@ -40,15 +40,24 @@
     <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Booking.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GrauhundReisen.DomainFunktional\GrauhundReisen.DomainFunktional.fsproj">
+      <Name>GrauhundReisen.DomainFunktional</Name>
+      <Project>{a7f6157d-cb71-4c47-baac-f50a810690e5}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\GrauhundReisen.ReadModel\GrauhundReisen.ReadModel.csproj">
+      <Name>GrauhundReisen.ReadModel</Name>
+      <Project>{63110ae7-9df9-4745-8026-2de15fc064a3}</Project>
+      <Private>True</Private>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>

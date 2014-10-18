@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Grauhundreisen.Infrastructu
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "GrauhundReisen.DomainFunktional", "GrauhundReisen.DomainFunktional\GrauhundReisen.DomainFunktional.fsproj", "{A7F6157D-CB71-4C47-BAAC-F50A810690E5}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "GrauhundReisen.ReadModelFunktional", "GrauhundReisen.ReadModelFunktional\GrauhundReisen.ReadModelFunktional.fsproj", "{5E6018D9-6BDA-41EF-8A38-440079FACFC4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{A7F6157D-CB71-4C47-BAAC-F50A810690E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A7F6157D-CB71-4C47-BAAC-F50A810690E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A7F6157D-CB71-4C47-BAAC-F50A810690E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E6018D9-6BDA-41EF-8A38-440079FACFC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E6018D9-6BDA-41EF-8A38-440079FACFC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E6018D9-6BDA-41EF-8A38-440079FACFC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E6018D9-6BDA-41EF-8A38-440079FACFC4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

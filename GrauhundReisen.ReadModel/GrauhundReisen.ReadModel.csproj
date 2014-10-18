@@ -28,9 +28,7 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EventSourcing">
-      <HintPath>..\packages\EventSourcing.dll</HintPath>
-    </Reference>
+    <Reference Include="FSharp.Core, Version=4.3.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -60,6 +58,10 @@
     <ProjectReference Include="..\Grauhhundreisen.Infrastructure\Grauhundreisen.Infrastructure.csproj">
       <Project>{2C740D79-9D03-456F-AB57-1FD788884602}</Project>
       <Name>Grauhundreisen.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GrauhundReisen.DomainFunktional\GrauhundReisen.DomainFunktional.fsproj">
+      <Project>{a7f6157d-cb71-4c47-baac-f50a810690e5}</Project>
+      <Name>GrauhundReisen.DomainFunktional</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

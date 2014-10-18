@@ -1,5 +1,4 @@
 ﻿using System;
-using GrauhundReisen.Domain.Services;
 using GrauhundReisen.ReadModel.Repositories;
 using Nancy;
 using Nancy.TinyIoc;
@@ -27,7 +26,7 @@ namespace GrauhundReisen.WebPortal
             var repostiory = EventSourcing.Repositories.InMemory.create(false);
             var bookingService = DomainFunktional.Booking.Service.fromRepository(repostiory);
 
-            DomainFunktional.Booking.Service.SetupReadmodelHandler(bookingReadmodelRepo, bookingService);
+            ReadModelFunktional.Booking.RegisterAt (bookingReadmodelRepo, bookingService);
 
             container.Register(bookingService);
             container.Register<BookingForm>();

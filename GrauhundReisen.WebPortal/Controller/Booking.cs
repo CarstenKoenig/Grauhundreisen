@@ -1,5 +1,4 @@
 ﻿using System.Web.UI.WebControls;
-using GrauhundReisen.Domain.Services;
 using Nancy;
 using GrauhundReisen.Contracts.Events;
 using GrauhundReisen.ReadModel.Repositories;

@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
-using GrauhundReisen.Domain.Services;
 using Nancy;
+using GrauhundReisen.DomainFunktional;
 
 namespace GrauhundReisen.WebPortal.Controller
 {
     public class Admin : NancyModule
     {
-        public Admin(BookingService bookingService)
+        public Admin(GrauhundReisen.DomainFunktional.Booking.Service.T bookingService)
         {
             Get["show-all-my-events"] = _ =>
             {
-                var events = bookingService.GetAllEventsAsString();
+                var events = GrauhundReisen.DomainFunktional.Booking.Service.GetAllEventsAsString<GrauhundReisen.DomainFunktional.Booking.Events>(bookingService);
 
 				return View["show-all-my-events", events];
             };
