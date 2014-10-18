@@ -139,10 +139,6 @@
       <Project>{a7f6157d-cb71-4c47-baac-f50a810690e5}</Project>
       <Name>GrauhundReisen.DomainFunktional</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GrauhundReisen.Domain\GrauhundReisen.Domain.csproj">
-      <Project>{65BCB66B-65CD-4380-A51C-92524FA4483D}</Project>
-      <Name>GrauhundReisen.Domain</Name>
-    </ProjectReference>
     <ProjectReference Include="..\GrauhundReisen.ReadModelFunktional\GrauhundReisen.ReadModelFunktional.fsproj">
       <Project>{5e6018d9-6bda-41ef-8a38-440079facfc4}</Project>
       <Name>GrauhundReisen.ReadModelFunktional</Name>

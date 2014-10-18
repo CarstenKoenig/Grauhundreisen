@@ -39,31 +39,39 @@ module Booking =
 
     let some t : T option = Some t
     
-
     type IRepository =
         abstract GetBy  : Id -> T option
         abstract Delete : Id -> unit
         abstract Save   : T  -> unit
         
-
-    let fromDomain 
-                (id : GrauhundReisen.DomainFunktional.Booking.BookingId)
-                (name : GrauhundReisen.DomainFunktional.Booking.Name)
-                (GrauhundReisen.DomainFunktional.Booking.Email email) 
-                (creditCard : GrauhundReisen.DomainFunktional.Booking.CreditCard)
-                (destination : GrauhundReisen.DomainFunktional.Booking.Destination) =
-        let (ct, cn) = GrauhundReisen.DomainFunktional.Booking.Convert.fromCreditCard creditCard
-        create (id.ToString(), name.Givenname, name.Surname, email, ct, cn, destination)
-    
     module Projections =
         open EventSourcing.Projection
         open GrauhundReisen.DomainFunktional.Booking
         open GrauhundReisen.DomainFunktional.Booking.Projections
 
         let booking = 
-            fromDomain $ bookingId 
-            <*> name <*> email 
-            <*> creditCard <*> destination
+            EventSourcing.Projection.create
+                empty
+                (fun b ev ->
+                    match ev with
+                    | Events.Ordered (GrauhundReisen.DomainFunktional.Booking.Booking (id, order)) -> 
+                        let (ct,cn) = GrauhundReisen.DomainFunktional.Booking.Convert.fromCreditCard order.CreditCard
+                        let (GrauhundReisen.DomainFunktional.Booking.Email email) = order.Email
+                        { b with Id               = string id
+                                 CreditCardType   = ct
+                                 CreditCardNumber = cn
+                                 Destination      = order.Destination
+                                 EMail            = email
+                                 FirstName        = order.Name.Givenname
+                                 LastName         = order.Name.Surname
+                        }
+                    | Events.EmailChanged (GrauhundReisen.DomainFunktional.Booking.Email email) ->
+                        { b with EMail = email }
+                    | Events.CreditCardChanged creditCard ->
+                        let (ct,cn) = GrauhundReisen.DomainFunktional.Booking.Convert.fromCreditCard creditCard
+                        { b with CreditCardType   = ct
+                                 CreditCardNumber = cn
+                        })
 
     let eventHandler (repo : IRepository) 
                      (id : GrauhundReisen.DomainFunktional.Booking.BookingId, event : Events) =
@@ -72,12 +80,7 @@ module Booking =
             | Some rm -> rm
             | None    -> empty
         // das gefällt mir so noch nicht - das ist die Schwäche des "Zwischenschritts/Typs"
-        let init = ((((GrauhundReisen.DomainFunktional.Booking.BookingId.Parse readModelFrom.Id,
-                       { GrauhundReisen.DomainFunktional.Booking.Givenname = readModelFrom.FirstName; GrauhundReisen.DomainFunktional.Booking.Surname = readModelFrom.LastName }),
-                       GrauhundReisen.DomainFunktional.Booking.Email readModelFrom.EMail), 
-                       GrauhundReisen.DomainFunktional.Booking.Convert.toCreditCard (readModelFrom.CreditCardType, readModelFrom.CreditCardNumber)),
-                       readModelFrom.Destination)
-        let readModelTo = EventSourcing.Projection.foldFrom Projections.booking init (Seq.singleton event)
+        let readModelTo = EventSourcing.Projection.foldFrom Projections.booking readModelFrom (Seq.singleton event)
         repo.Delete (id.ToString())
         repo.Save readModelTo
 
