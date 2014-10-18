@@ -53,11 +53,6 @@
       <Project>{a7f6157d-cb71-4c47-baac-f50a810690e5}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\GrauhundReisen.ReadModel\GrauhundReisen.ReadModel.csproj">
-      <Name>GrauhundReisen.ReadModel</Name>
-      <Project>{63110ae7-9df9-4745-8026-2de15fc064a3}</Project>
-      <Private>True</Private>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>

@@ -1,24 +1,59 @@
 ﻿namespace GrauhundReisen.ReadModelFunktional
 
-open GrauhundReisen.ReadModel
-
 module Booking =
+  
+    // Readmodel - für Janeks/C# "angepasst" (alle Felder Strings)
+    type Id = string
+    type Events = GrauhundReisen.DomainFunktional.Booking.Events
+    type T = 
+        { CreditCardNumber : string
+          CreditCardType   : string
+          Destination      : string
+          EMail            : string
+          FirstName        : string
+          LastName         : string
+          Id               : string
+        }
 
-    let createRm id 
-                 (name : GrauhundReisen.DomainFunktional.Booking.Name)
-                 (GrauhundReisen.DomainFunktional.Booking.Email email) 
-                 creditCard 
-                 destination =
-        let booking = Models.Booking()
+    let empty = 
+        { CreditCardNumber = ""
+          CreditCardType   = ""
+          Destination      = ""
+          EMail            = ""
+          FirstName        = ""
+          LastName         = ""
+          Id               = string GrauhundReisen.DomainFunktional.Booking.BookingId.Empty
+        }
+
+    let create (id, first, last, email, credType, credNr, dest) = 
+        { CreditCardNumber = credNr
+          CreditCardType   = credType
+          Destination      = dest
+          EMail            = email
+          FirstName        = first
+          LastName         = last
+          Id               = id
+        }
+
+    let none : T option = None
+
+    let some t : T option = Some t
+    
+
+    type IRepository =
+        abstract GetBy  : Id -> T option
+        abstract Delete : Id -> unit
+        abstract Save   : T  -> unit
+        
+
+    let fromDomain 
+                (id : GrauhundReisen.DomainFunktional.Booking.BookingId)
+                (name : GrauhundReisen.DomainFunktional.Booking.Name)
+                (GrauhundReisen.DomainFunktional.Booking.Email email) 
+                (creditCard : GrauhundReisen.DomainFunktional.Booking.CreditCard)
+                (destination : GrauhundReisen.DomainFunktional.Booking.Destination) =
         let (ct, cn) = GrauhundReisen.DomainFunktional.Booking.Convert.fromCreditCard creditCard
-        booking.CreditCardNumber <- cn
-        booking.CreditCardType   <- ct
-        booking.Destination <- destination
-        booking.EMail       <- email
-        booking.FirstName   <- name.Givenname
-        booking.LastName    <- name.Surname
-        booking.Id          <- id.ToString()
-        booking
+        create (id.ToString(), name.Givenname, name.Surname, email, ct, cn, destination)
     
     module Projections =
         open EventSourcing.Projection
@@ -26,33 +61,25 @@ module Booking =
         open GrauhundReisen.DomainFunktional.Booking.Projections
 
         let booking = 
-            createRm $ bookingId 
+            fromDomain $ bookingId 
             <*> name <*> email 
             <*> creditCard <*> destination
 
-    let empty =
-        let rm = GrauhundReisen.ReadModel.Models.Booking()
-        rm.CreditCardNumber <- ""
-        rm.CreditCardType <- ""
-        rm.Destination <- ""
-        rm.EMail <- ""
-        rm.FirstName <- ""
-        rm.Id <- System.Guid.Empty.ToString()
-        rm.LastName <- ""
-        rm
+    let eventHandler (repo : IRepository) 
+                     (id : GrauhundReisen.DomainFunktional.Booking.BookingId, event : Events) =
+        let readModelFrom = 
+            match repo.GetBy (id.ToString()) with
+            | Some rm -> rm
+            | None    -> empty
+        // das gefällt mir so noch nicht - das ist die Schwäche des "Zwischenschritts/Typs"
+        let init = ((((GrauhundReisen.DomainFunktional.Booking.BookingId.Parse readModelFrom.Id,
+                       { GrauhundReisen.DomainFunktional.Booking.Givenname = readModelFrom.FirstName; GrauhundReisen.DomainFunktional.Booking.Surname = readModelFrom.LastName }),
+                       GrauhundReisen.DomainFunktional.Booking.Email readModelFrom.EMail), 
+                       GrauhundReisen.DomainFunktional.Booking.Convert.toCreditCard (readModelFrom.CreditCardType, readModelFrom.CreditCardNumber)),
+                       readModelFrom.Destination)
+        let readModelTo = EventSourcing.Projection.foldFrom Projections.booking init (Seq.singleton event)
+        repo.Delete (id.ToString())
+        repo.Save readModelTo
 
-    let eventHandler (repo : GrauhundReisen.ReadModel.Repositories.Bookings) 
-                     (id : EventSourcing.EntityId, event : GrauhundReisen.DomainFunktional.Booking.Events) =
-        let rm = repo.GetBookingBy (id.ToString())
-        let rm = if rm = null then empty else rm
-        let init = ((((GrauhundReisen.DomainFunktional.Booking.BookingId.Parse rm.Id, 
-                       { GrauhundReisen.DomainFunktional.Booking.Givenname = rm.FirstName; GrauhundReisen.DomainFunktional.Booking.Surname = rm.LastName }),
-                       GrauhundReisen.DomainFunktional.Booking.Email rm.EMail), 
-                       GrauhundReisen.DomainFunktional.Booking.Convert.toCreditCard (rm.CreditCardType, rm.CreditCardNumber)),
-                       rm.Destination)
-        let rm' = EventSourcing.Projection.foldFrom Projections.booking init (Seq.singleton event)
-        repo.DeleteBooking (id.ToString())
-        repo.SaveBookingAsFile rm'
-
-    let RegisterAt(repo : GrauhundReisen.ReadModel.Repositories.Bookings, service : GrauhundReisen.DomainFunktional.Booking.Service.T) =
+    let RegisterAt(repo : IRepository, service : GrauhundReisen.DomainFunktional.Booking.Service.T) =
         service |> GrauhundReisen.DomainFunktional.Booking.Service.registerEventHandler (eventHandler repo)

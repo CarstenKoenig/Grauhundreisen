@@ -36,7 +36,6 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Booking.cs" />
     <Compile Include="Models\CreditCardType.cs" />
     <Compile Include="Models\Destination.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -62,6 +61,10 @@
     <ProjectReference Include="..\GrauhundReisen.DomainFunktional\GrauhundReisen.DomainFunktional.fsproj">
       <Project>{a7f6157d-cb71-4c47-baac-f50a810690e5}</Project>
       <Name>GrauhundReisen.DomainFunktional</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GrauhundReisen.ReadModelFunktional\GrauhundReisen.ReadModelFunktional.fsproj">
+      <Project>{5e6018d9-6bda-41ef-8a38-440079facfc4}</Project>
+      <Name>GrauhundReisen.ReadModelFunktional</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>
