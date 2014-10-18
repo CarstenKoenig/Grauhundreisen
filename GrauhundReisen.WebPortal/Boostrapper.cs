@@ -1,6 +1,5 @@
 ﻿using System;
 using GrauhundReisen.Domain.Services;
-using GrauhundReisen.ReadModel.EventHandler;
 using GrauhundReisen.ReadModel.Repositories;
 using Nancy;
 using Nancy.TinyIoc;
@@ -11,7 +10,7 @@ namespace GrauhundReisen.WebPortal
     {
 		  // Auskommentieren und anpassen für die eigene Umgebung
 		  // const string ConnectionString = @"C:\[Path to your Development Folder]\GrauhundReisen\GrauhundReisen.WebPortal\Content\DataStore\Bookings\";
-		  const String ConnectionString = "Content/DataStore/Bookings/";
+		  const String ConnectionString = @"c:\Temp\Events";
 
         protected override void ApplicationStartup(TinyIoCContainer container, Nancy.Bootstrapper.IPipelines pipelines)
         {
@@ -24,14 +23,15 @@ namespace GrauhundReisen.WebPortal
 
         private static void SetupIoC(TinyIoCContainer container)
         {
-            var bookingEventHandler = new BookingHandler(ConnectionString);
-            var bookingService = new BookingService();
+            var bookingReadmodelRepo = new Bookings (ConnectionString);
+            var repostiory = EventSourcing.Repositories.InMemory.create(false);
+            var bookingService = DomainFunktional.Booking.Service.fromRepository(repostiory);
 
-            bookingService.WhenStatusChanged(bookingEventHandler.Handle);
+            DomainFunktional.Booking.Service.SetupReadmodelHandler(bookingReadmodelRepo, bookingService);
 
             container.Register(bookingService);
             container.Register<BookingForm>();
-            container.Register(new Bookings(ConnectionString));
+            container.Register(bookingReadmodelRepo);
         }
     }
 }

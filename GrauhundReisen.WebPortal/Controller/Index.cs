@@ -8,9 +8,9 @@ namespace GrauhundReisen.WebPortal
 {
 	public class Index : NancyModule
 	{
-		readonly BookingService _bookingService;
+		readonly DomainFunktional.Booking.Service.T _bookingService;
 
-		public Index (BookingForm bookingForm, BookingService bookingService)
+		public Index (BookingForm bookingForm, DomainFunktional.Booking.Service.T  bookingService)
 		{
 			_bookingService = bookingService;
 
@@ -29,10 +29,12 @@ namespace GrauhundReisen.WebPortal
 		    var firstName = this.Request.Form["TravellerFirstName"].Value;
 		    var lastName = this.Request.Form["TravellerLastName"].Value;
 
-		    await _bookingService.OrderBooking(bookingId,
-		        destination,
-		        creditCardNumber, creditCardType,
-		        email, firstName, lastName);
+            await DomainFunktional.Booking.Service.OrderBooking(
+                    _bookingService,
+                    bookingId,
+		            destination,
+		            creditCardNumber, creditCardType,
+		            email, firstName, lastName);
 
 			return View ["confirmation", new {BookingId = bookingId}];
 		}

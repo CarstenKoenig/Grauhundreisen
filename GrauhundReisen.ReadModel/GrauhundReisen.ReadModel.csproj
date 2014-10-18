@@ -28,6 +28,9 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EventSourcing">
+      <HintPath>..\packages\EventSourcing.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -39,7 +42,6 @@
     <Compile Include="Models\CreditCardType.cs" />
     <Compile Include="Models\Destination.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="EventHandler\BookingHandler.cs" />
     <Compile Include="Repositories\Bookings.cs" />
     <Compile Include="Repositories\CreditCardTypes.cs" />
     <Compile Include="Repositories\Destinations.cs" />

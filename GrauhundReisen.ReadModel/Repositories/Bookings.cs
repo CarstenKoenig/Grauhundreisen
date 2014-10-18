@@ -19,9 +19,12 @@ namespace GrauhundReisen.ReadModel.Repositories
 			return ReadBookingFromFile(bookingId);
 		}
 
-		private Booking ReadBookingFromFile (string bookingId)
+		public Booking ReadBookingFromFile (string bookingId)
 		{
 			var bookingPath = Path.Combine (bookingsPath, bookingId);
+
+            if (!File.Exists(bookingPath))
+                return null;
 
 			var bookingAsString = File.ReadAllText (bookingPath);
 
@@ -29,5 +32,20 @@ namespace GrauhundReisen.ReadModel.Repositories
 
 			return booking;
 		}
+
+        public void SaveBookingAsFile(Booking booking)
+        {
+            var savePath = Path.Combine(bookingsPath, booking.Id);
+            var bookingAsJson = JsonConvert.SerializeObject(booking);
+
+            File.WriteAllText(savePath, bookingAsJson);
+        }
+
+        public void DeleteBooking(String bookingId)
+        {
+            var bookingPath = Path.Combine(bookingsPath, bookingId);
+
+            File.Delete(bookingPath);
+        }
 	}
 }

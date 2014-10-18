@@ -40,6 +40,10 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EventSourcing, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EventSourcing.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
@@ -130,6 +134,10 @@
     <ProjectReference Include="..\GrauhundReisen.Contracts\GrauhundReisen.Contracts.csproj">
       <Project>{8FEF2173-D048-4846-B423-ECF201CD0845}</Project>
       <Name>GrauhundReisen.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GrauhundReisen.DomainFunktional\GrauhundReisen.DomainFunktional.fsproj">
+      <Project>{a7f6157d-cb71-4c47-baac-f50a810690e5}</Project>
+      <Name>GrauhundReisen.DomainFunktional</Name>
     </ProjectReference>
     <ProjectReference Include="..\GrauhundReisen.Domain\GrauhundReisen.Domain.csproj">
       <Project>{65BCB66B-65CD-4380-A51C-92524FA4483D}</Project>

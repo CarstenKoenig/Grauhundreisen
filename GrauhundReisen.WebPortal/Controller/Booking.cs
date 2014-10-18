@@ -2,18 +2,18 @@
 using GrauhundReisen.Domain.Services;
 using Nancy;
 using GrauhundReisen.Contracts.Events;
-using GrauhundReisen.ReadModel.EventHandler;
 using GrauhundReisen.ReadModel.Repositories;
 using System.Threading.Tasks;
+using GrauhundReisen.DomainFunktional;
 
 namespace GrauhundReisen.WebPortal
 {
 	public class Booking : NancyModule
 	{
 	    readonly Bookings _bookings;
-	    readonly BookingService _bookingService;
+	    readonly DomainFunktional.Booking.Service.T _bookingService;
 
-	    public Booking(Bookings bookings, BookingService bookingService)
+        public Booking(Bookings bookings, DomainFunktional.Booking.Service.T bookingService)
 		{
 			_bookings = bookings;
             _bookingService = bookingService;
@@ -24,6 +24,7 @@ namespace GrauhundReisen.WebPortal
 
 		object GetBookingFormFor (string bookingId)
 		{
+
 			var booking = _bookings.GetBookingBy (bookingId);
 
 			return View ["change-booking", booking];
@@ -35,7 +36,10 @@ namespace GrauhundReisen.WebPortal
 		    var email = this.Request.Form["TravellerEMail"].Value;
 		    var creditCardNumber = this.Request.Form["PaymentCreditCardNumber"].Value;
 
-		    await _bookingService.UpdateBookingDetails(bookingId, email, creditCardNumber);
+            await DomainFunktional.Booking.Service.UpdateBookingDetail(
+                    _bookingService, 
+                    bookingId, 
+                    email, creditCardNumber);
 
 			return View ["change-confirmation"];
 		}
