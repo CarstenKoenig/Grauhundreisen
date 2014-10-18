@@ -1,6 +1,5 @@
 ﻿using System.Web.UI.WebControls;
 using Nancy;
-using GrauhundReisen.Contracts.Events;
 using GrauhundReisen.ReadModel.Repositories;
 using System.Threading.Tasks;
 using GrauhundReisen.DomainFunktional;

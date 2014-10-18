@@ -50,10 +50,6 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\GrauhundReisen.Contracts\GrauhundReisen.Contracts.csproj">
-      <Project>{8FEF2173-D048-4846-B423-ECF201CD0845}</Project>
-      <Name>GrauhundReisen.Contracts</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Grauhhundreisen.Infrastructure\Grauhundreisen.Infrastructure.csproj">
       <Project>{2C740D79-9D03-456F-AB57-1FD788884602}</Project>
       <Name>Grauhundreisen.Infrastructure</Name>

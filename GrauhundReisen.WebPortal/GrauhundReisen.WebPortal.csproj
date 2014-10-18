@@ -131,10 +131,6 @@
     <None Include="Content\css\bootstrap.css.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GrauhundReisen.Contracts\GrauhundReisen.Contracts.csproj">
-      <Project>{8FEF2173-D048-4846-B423-ECF201CD0845}</Project>
-      <Name>GrauhundReisen.Contracts</Name>
-    </ProjectReference>
     <ProjectReference Include="..\GrauhundReisen.DomainFunktional\GrauhundReisen.DomainFunktional.fsproj">
       <Project>{a7f6157d-cb71-4c47-baac-f50a810690e5}</Project>
       <Name>GrauhundReisen.DomainFunktional</Name>
