@@ -156,14 +156,16 @@ module Booking =
                 |> update (bookingId', Email email, creditCardNumber)
             ) |> asTask :> System.Threading.Tasks.Task
 
-        let GetAllEventsAsStringFor(Service service, id) =
+        let GetEventAsString (Service store, id) =
             let serialize ev = Newtonsoft.Json.JsonConvert.SerializeObject ev
-            service
+            store
             |> EventStore.restore Projections.allEvents id
             |> Seq.map serialize
+            |> Seq.toArray
 
         /// kann ich momentan noch nicht implementieren, da ich die Abfrage aller
         /// Keys aus dem EventStore/Repository im Moment nicht unterstüzte
         /// Ich denke darüber nach
-        let GetAllEventsAsString(Service service) =
-            Seq.empty
+        let GetAllEventsAsString (Service store as service) =
+            let ids = EventStore.execute store Computation.allIds
+            ids |> Seq.collect (fun id -> GetEventAsString (service, id))
