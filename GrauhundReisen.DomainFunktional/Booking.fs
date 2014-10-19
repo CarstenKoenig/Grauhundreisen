@@ -4,7 +4,11 @@ open EventSourcing
 
 module Booking =
 
+    // mein EventStore läuft momentan nur über Guids
+    // das ist ein Alias dafür:
     type BookingId = EntityId
+
+    // sammle die Typen für eine "Order"
 
     type Name = 
         { Givenname : string
@@ -28,6 +32,7 @@ module Booking =
           Destination : Destination
         }
 
+    // das ist sozusagen ein Konstruktor (mach mir das leben leichter, wenn ich Records initialisiere)
     let createOrder name email creditCard destination =
         { Name        = name
           Email       = email
@@ -35,17 +40,26 @@ module Booking =
           Destination = destination
         }
 
+    // der "Booking"-Datentyp, da ich das Booking.Booking so hässlich finde benutze ich hier eine
+    // ML Konvention, wo der *Hauptyp* eines Modul häufig mit T bezeichnet wird
+    // damit kann ich wenigstens Booking.T schreiben - kann man ändern, wenn das nicht gefällt
     type T = Booking of BookingId * Order
 
     let create id name email creditCard destination =
         Booking (id, createOrder name email creditCard destination)
 
-
+    // Die Events, die zur Domände "Booking" gehörtn
+    // anders als bei Dir gefällt mir der Gedanke diese bei in der Domäne zu haben
+    // können wir gerne Diskutieren (PS: das heißt hier, dass ich für verschiedene
+    // Domänen verschiedene Event-Typen habe, mein sollte das können)
     type Events =
         | Ordered           of T
         | EmailChanged      of Email
         | CreditCardChanged of CreditCard
 
+    // einige Hilfsfunktionen die ich immer wieder brauche,
+    // weil ich mich entschieden hatte die Kreditkarten
+    // explizit zu modelieren und nicht über zwei Strings
     [<AutoOpen>]
     module Convert = 
 
@@ -64,6 +78,12 @@ module Booking =
                 | ""                 -> NoCreditCardSelected
                 | _                  -> failwith (sprintf "unbekannter Kreditkartentyp [%s]" t)
 
+    // einige Projektionen um aus Events - Eigenschaften
+    // und schließlich die ganze Buchung zu machen
+    // im Readmodel kann man sich einen direkten Weg ansehen
+    // das hier ist etwas der Gag an meinem Store, deshalb steht
+    // das so hier, auch wenn es in diesem Beispiel nicht direkt
+    // gebraucht wird
     module Projections =
         let bookingId  = Projection.latest (function
                             | Ordered (Booking (id,_)) -> Some id
@@ -87,6 +107,8 @@ module Booking =
                             | CreditCardChanged c     -> Some c
                             | _                       -> None)
 
+        // hier werden mit Kombinatoren die Buchung aus ihren
+        // Einzelteilen gebaut
         let booking =
             create $ bookingId 
             <*> name <*> email 
@@ -96,6 +118,9 @@ module Booking =
             Projection.events ()
             |> Projection.map List.toSeq
 
+    // das ist die Service-Schnittstelle nach außen
+    // ich habe die hier extra nicht als Klasse gemacht
+    // als Diskussionsgrundlage (ein Modul ist sowas wie eine statische Klasse)
     module Service = 
 
         type T = private Service of IEventStore
@@ -128,6 +153,7 @@ module Booking =
         let private asTask aktion =
             System.Threading.Tasks.Task.Factory.StartNew(fun () -> aktion())
 
+        // die groß geschriebenen Methoden wird C# nutzen
         let OrderBooking (service : T,
                           bookingId : string, destination : string,
                           creditCardNumber : string, creditCardType : string,
