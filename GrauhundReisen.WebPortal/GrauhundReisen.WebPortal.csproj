@@ -140,10 +140,6 @@
       <Project>{5e6018d9-6bda-41ef-8a38-440079facfc4}</Project>
       <Name>GrauhundReisen.ReadModelFunktional</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GrauhundReisen.ReadModel\GrauhundReisen.ReadModel.csproj">
-      <Project>{63110AE7-9DF9-4745-8026-2DE15FC064A3}</Project>
-      <Name>GrauhundReisen.ReadModel</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Grauhhundreisen.Infrastructure\Grauhundreisen.Infrastructure.csproj">
       <Project>{2C740D79-9D03-456F-AB57-1FD788884602}</Project>
       <Name>Grauhundreisen.Infrastructure</Name>

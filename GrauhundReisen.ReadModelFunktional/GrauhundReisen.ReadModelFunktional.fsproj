@@ -52,6 +52,7 @@
     <Compile Include="FileKeyValueStore.fs" />
     <Compile Include="Booking.fs" />
     <Content Include="packages.config" />
+    <Compile Include="Repositories.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="EventSourcing">

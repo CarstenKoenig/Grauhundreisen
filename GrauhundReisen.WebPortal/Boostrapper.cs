@@ -1,5 +1,5 @@
 ﻿using System;
-using GrauhundReisen.ReadModel.Repositories;
+using GrauhundReisen.ReadModelFunktional;
 using Nancy;
 using Nancy.TinyIoc;
 
@@ -29,7 +29,7 @@ namespace GrauhundReisen.WebPortal
             DomainFunktional.Booking.Service.registerReadmodel(ReadModelFunktional.Booking.createFileIO(ConnectionString), bookingService);
 
             container.Register(bookingService);
-            container.Register<BookingForm>();
+            container.Register<Repositories.BookingForm>();
             container.Register(readModel);
         }
     }

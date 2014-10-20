@@ -5,8 +5,6 @@ VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrauhundReisen.WebPortal", "GrauhundReisen.WebPortal\GrauhundReisen.WebPortal.csproj", "{923432BA-6B4D-4EBA-83C7-2B1F94F47DE7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrauhundReisen.ReadModel", "GrauhundReisen.ReadModel\GrauhundReisen.ReadModel.csproj", "{63110AE7-9DF9-4745-8026-2DE15FC064A3}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Grauhundreisen.Infrastructure", "Grauhhundreisen.Infrastructure\Grauhundreisen.Infrastructure.csproj", "{2C740D79-9D03-456F-AB57-1FD788884602}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "GrauhundReisen.DomainFunktional", "GrauhundReisen.DomainFunktional\GrauhundReisen.DomainFunktional.fsproj", "{A7F6157D-CB71-4C47-BAAC-F50A810690E5}"
@@ -23,10 +21,6 @@ Global
 		{923432BA-6B4D-4EBA-83C7-2B1F94F47DE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{923432BA-6B4D-4EBA-83C7-2B1F94F47DE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{923432BA-6B4D-4EBA-83C7-2B1F94F47DE7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{63110AE7-9DF9-4745-8026-2DE15FC064A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{63110AE7-9DF9-4745-8026-2DE15FC064A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{63110AE7-9DF9-4745-8026-2DE15FC064A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{63110AE7-9DF9-4745-8026-2DE15FC064A3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2C740D79-9D03-456F-AB57-1FD788884602}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2C740D79-9D03-456F-AB57-1FD788884602}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2C740D79-9D03-456F-AB57-1FD788884602}.Release|Any CPU.ActiveCfg = Release|Any CPU

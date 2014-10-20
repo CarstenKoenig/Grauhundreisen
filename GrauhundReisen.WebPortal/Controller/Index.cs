@@ -1,6 +1,6 @@
 ﻿using System;
+using GrauhundReisen.ReadModelFunktional;
 using Nancy;
-using GrauhundReisen.ReadModel.Repositories;
 using System.Threading.Tasks;
 
 namespace GrauhundReisen.WebPortal
@@ -9,7 +9,7 @@ namespace GrauhundReisen.WebPortal
 	{
 		readonly DomainFunktional.Booking.Service.T _bookingService;
 
-		public Index (BookingForm bookingForm, DomainFunktional.Booking.Service.T  bookingService)
+		public Index (Repositories.BookingForm bookingForm, DomainFunktional.Booking.Service.T  bookingService)
 		{
 			_bookingService = bookingService;
 
