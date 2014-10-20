@@ -39,7 +39,6 @@
     <Compile Include="Models\CreditCardType.cs" />
     <Compile Include="Models\Destination.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\Bookings.cs" />
     <Compile Include="Repositories\CreditCardTypes.cs" />
     <Compile Include="Repositories\Destinations.cs" />
     <Compile Include="Repositories\BookingForm.cs" />

@@ -22,15 +22,15 @@ namespace GrauhundReisen.WebPortal
 
         private static void SetupIoC(TinyIoCContainer container)
         {
-            var bookingReadmodelRepo = new Bookings (ConnectionString);
             var repostiory = EventSourcing.Repositories.InMemory.create(false);
             var bookingService = DomainFunktional.Booking.Service.fromRepository(repostiory);
 
-            ReadModelFunktional.Booking.RegisterAt (bookingReadmodelRepo, bookingService);
+            var readModel = ReadModelFunktional.Booking.createReadModel(ConnectionString);
+            DomainFunktional.Booking.Service.registerReadmodel(ReadModelFunktional.Booking.createFileIO(ConnectionString), bookingService);
 
             container.Register(bookingService);
             container.Register<BookingForm>();
-            container.Register(bookingReadmodelRepo);
+            container.Register(readModel);
         }
     }
 }

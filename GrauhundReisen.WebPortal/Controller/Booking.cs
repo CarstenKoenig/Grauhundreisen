@@ -8,10 +8,10 @@ namespace GrauhundReisen.WebPortal
 {
 	public class Booking : NancyModule
 	{
-	    readonly Bookings _bookings;
+	    readonly ReadModelFunktional.Booking.ReadModel _bookings;
 	    readonly DomainFunktional.Booking.Service.T _bookingService;
 
-        public Booking(Bookings bookings, DomainFunktional.Booking.Service.T bookingService)
+        public Booking(ReadModelFunktional.Booking.ReadModel bookings, DomainFunktional.Booking.Service.T bookingService)
 		{
 			_bookings = bookings;
             _bookingService = bookingService;
@@ -23,7 +23,7 @@ namespace GrauhundReisen.WebPortal
 		object GetBookingFormFor (string bookingId)
 		{
 
-			var booking = _bookings.GetBookingBy (bookingId);
+			var booking = _bookings.Load(bookingId);
 
 			return View ["change-booking", booking];
 		}

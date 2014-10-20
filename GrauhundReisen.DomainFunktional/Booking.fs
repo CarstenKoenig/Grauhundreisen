@@ -132,6 +132,9 @@ module Booking =
         let registerEventHandler handler (Service service) =
             service |> EventStore.subscribe handler
 
+        let registerReadmodel rm (Service service) =
+            EventStore.registerReadmodel service rm
+
         let order (bookingId, destination, creditCard, email, name) (Service service) =
             let event = 
                 create bookingId name email creditCard destination
