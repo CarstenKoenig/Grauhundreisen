@@ -26,7 +26,7 @@ namespace GrauhundReisen.WebPortal
             var bookingService = DomainFunktional.Booking.Service.fromRepository(repostiory);
 
             var readModel = ReadModelFunktional.Booking.createReadModel(ConnectionString);
-            DomainFunktional.Booking.Service.registerReadmodel(ReadModelFunktional.Booking.createFileIO(ConnectionString), bookingService);
+            bookingService.RegisterReadmodel(ReadModelFunktional.Booking.createFileIO(ConnectionString));
 
             container.Register(bookingService);
             container.Register<Repositories.BookingForm>();

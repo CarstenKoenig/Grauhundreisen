@@ -28,8 +28,7 @@ namespace GrauhundReisen.WebPortal
 		    var firstName = this.Request.Form["TravellerFirstName"].Value;
 		    var lastName = this.Request.Form["TravellerLastName"].Value;
 
-            await DomainFunktional.Booking.Service.OrderBooking(
-                    _bookingService,
+            await _bookingService.OrderBooking(
                     bookingId,
 		            destination,
 		            creditCardNumber, creditCardType,

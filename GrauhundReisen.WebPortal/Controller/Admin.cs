@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using Nancy;
-using GrauhundReisen.DomainFunktional;
+﻿using Nancy;
 
 namespace GrauhundReisen.WebPortal.Controller
 {
@@ -10,7 +8,7 @@ namespace GrauhundReisen.WebPortal.Controller
         {
             Get["show-all-my-events"] = _ =>
             {
-                var events = GrauhundReisen.DomainFunktional.Booking.Service.GetAllEventsAsString(bookingService);
+                var events = bookingService.GetAllEventsAsString();
 
 				return View["show-all-my-events", events];
             };

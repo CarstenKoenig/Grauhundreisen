@@ -10,7 +10,7 @@ module Repositories =
 
         let creditCardTypes =
             let ct n : CreditCardType = { Name = n }
-            [ ct "Master Card"; ct "Visa"; ct "Americal Express" ]
+            [ ct "Master Card"; ct "Visa"; ct "American Express" ]
             |> Seq.ofList
 
         let destinations =

@@ -118,30 +118,21 @@ module Booking =
             Projection.events ()
             |> Projection.map List.toSeq
 
-    // das ist die Service-Schnittstelle nach außen
-    // ich habe die hier extra nicht als Klasse gemacht
-    // als Diskussionsgrundlage (ein Modul ist sowas wie eine statische Klasse)
     module Service = 
 
-        type T = private Service of IEventStore
+        let private registerEventHandler handler (store : IEventStore) =
+            store |> EventStore.subscribe handler
 
-        let fromRepository (rep : IEventRepository) =
-            EventStore.fromRepository rep
-            |> Service
+        let private registerReadmodel rm (store : IEventStore) =
+            EventStore.registerReadmodel store rm
 
-        let registerEventHandler handler (Service service) =
-            service |> EventStore.subscribe handler
-
-        let registerReadmodel rm (Service service) =
-            EventStore.registerReadmodel service rm
-
-        let order (bookingId, destination, creditCard, email, name) (Service service) =
+        let private order (bookingId, destination, creditCard, email, name) (store : IEventStore) =
             let event = 
                 create bookingId name email creditCard destination
                 |> Ordered
-            service |> EventStore.add bookingId event
+            store |> EventStore.add bookingId event
 
-        let update (bookingId, email, creditCardNr) (Service service) =
+        let private update (bookingId, email, creditCardNr) (store : IEventStore) =
             Computation.Do {
                 let! creditCard = Computation.restore Projections.creditCard bookingId
                 let creditCard = 
@@ -151,50 +142,49 @@ module Booking =
                     | AmericanExpress c -> AmericanExpress creditCardNr
                 do! Computation.add bookingId <| CreditCardChanged creditCard
                 do! Computation.add bookingId <| EmailChanged email
-            } |> EventStore.execute service
+            } |> EventStore.execute store
 
         let private asTask aktion =
             System.Threading.Tasks.Task.Factory.StartNew(fun () -> aktion())
 
-        // die groß geschriebenen Methoden wird C# nutzen
-        let OrderBooking (service : T,
-                          bookingId : string, destination : string,
-                          creditCardNumber : string, creditCardType : string,
-                          email : string, firstName : string, lastName : string) =
-            // nicht sehr glücklich darüber, aber ich möchte Janeks Access so weit
-            // wie möglich erhalten
-            let creditCard = toCreditCard (creditCardType, creditCardNumber)
-            let name = { Givenname = firstName; Surname = lastName }
-            let bookingId' = EntityId.Parse bookingId
-            (fun () ->
-                service
-                |> order (bookingId', destination, 
-                          creditCard,
-                          Email email, name)
-            ) |> asTask :> System.Threading.Tasks.Task
 
-        let UpdateBookingDetail (service : T,
-                                 bookingId : string,
-                                 email : string,
-                                 creditCardNumber : string) =
-            // nicht sehr glücklich darüber, aber ich möchte Janeks Access so weit
-            // wie möglich erhalten
-            let bookingId' = EntityId.Parse bookingId
-            (fun () ->
-                service
-                |> update (bookingId', Email email, creditCardNumber)
-            ) |> asTask :> System.Threading.Tasks.Task
+        type T (store : IEventStore) =
+            
+            member __.RegisterReadmodel (rm : ReadModel.T<'key,'event,'state,'result>) =
+                registerReadmodel rm store
 
-        let GetEventAsString (Service store, id) =
-            let serialize ev = Newtonsoft.Json.JsonConvert.SerializeObject ev
-            store
-            |> EventStore.restore Projections.allEvents id
-            |> Seq.map serialize
-            |> Seq.toArray
+            member __.OrderBooking (bookingId : string, destination : string,
+                                    creditCardNumber : string, creditCardType : string,
+                                    email : string, firstName : string, lastName : string) =
+                let creditCard = toCreditCard (creditCardType, creditCardNumber)
+                let name = { Givenname = firstName; Surname = lastName }
+                let bookingId' = EntityId.Parse bookingId
+                (fun () ->
+                    store
+                    |> order (bookingId', destination, 
+                              creditCard,
+                              Email email, name)
+                ) |> asTask :> System.Threading.Tasks.Task
 
-        /// kann ich momentan noch nicht implementieren, da ich die Abfrage aller
-        /// Keys aus dem EventStore/Repository im Moment nicht unterstüzte
-        /// Ich denke darüber nach
-        let GetAllEventsAsString (Service store as service) =
-            let ids = EventStore.execute store Computation.allIds
-            ids |> Seq.collect (fun id -> GetEventAsString (service, id))
+            member __.UpdateBookingDetail (bookingId : string,
+                                           email : string,
+                                           creditCardNumber : string) =
+                let bookingId' = EntityId.Parse bookingId
+                (fun () ->
+                    store
+                    |> update (bookingId', Email email, creditCardNumber)
+                ) |> asTask :> System.Threading.Tasks.Task
+
+            member __.GetEventAsString (id) =
+                let serialize ev = Newtonsoft.Json.JsonConvert.SerializeObject ev
+                store
+                |> EventStore.restore Projections.allEvents id
+                |> Seq.map serialize
+                |> Seq.toArray
+
+            member this.GetAllEventsAsString () =
+                let ids = EventStore.execute store Computation.allIds
+                ids |> Seq.collect (fun id -> this.GetEventAsString (id))
+
+        let fromRepository (rep : IEventRepository) =
+            T (EventStore.fromRepository rep)

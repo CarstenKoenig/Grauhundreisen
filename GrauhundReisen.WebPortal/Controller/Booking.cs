@@ -33,8 +33,7 @@ namespace GrauhundReisen.WebPortal
 		    var email = this.Request.Form["TravellerEMail"].Value;
 		    var creditCardNumber = this.Request.Form["PaymentCreditCardNumber"].Value;
 
-            await DomainFunktional.Booking.Service.UpdateBookingDetail(
-                    _bookingService, 
+            await _bookingService.UpdateBookingDetail(
                     bookingId, 
                     email, creditCardNumber);
 
